@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Untuk Kamu yang Spesial ❤️</title>
+    
+    <!-- Google Fonts: Premium Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&family=Parisienne&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================
+           1. RESET & VARIABLES CONFIGURATION
+           ========================================== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --pink-pastel: #ffe5ec;
+            --pink-soft: #ffb7b2;
+            --purple-pastel: #e8dbfc;
+            --rose-gold: #b76e79;
+            --white-glass: rgba(255, 255, 255, 0.45);
+            --white-glass-intense: rgba(255, 255, 255, 0.7);
+            --border-glass: rgba(255, 255, 255, 0.6);
+            --shadow-premium: 0 20px 50px rgba(183, 110, 121, 0.15);
+            --shadow-glow: 0 0 25px rgba(255, 183, 178, 0.6);
+            --font-serif: 'Cinzel', serif;
+            --font-sans: 'Montserrat', sans-serif;
+            --font-accent: 'Parisienne', cursive;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: var(--font-sans);
+            color: #4a3b42;
+            background-color: #0b070d; /* Start dark */
+            user-select: none;
+            transition: background-color 3s ease;
+        }
+
+        /* ==========================================
+           2. ANIMATED AURORA & GRADIENT BACKGROUND
+           ========================================== */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(-45deg, #ffc0cb, #f4e8ff, #ffe5ec, #e8dbfc, #fff0f5);
+            background-size: 400% 400%;
+            opacity: 0; /* Kept hidden during start screen darkness */
+            transition: opacity 4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .bg-bright {
+            background: linear-gradient(-45deg, #fff0f5, #ffd6e8, #f5e6ff, #ffffff) !important;
+            background-size: 300% 300% !important;
+        }
+
+        /* Ambient aurora glow filters */
+        .aurora {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.4;
+            mix-blend-mode: multiply;
+            pointer-events: none;
+            z-index: -1;
+            animation: floatingAurora 20s infinite alternate ease-in-out;
+        }
+        .aurora-1 { background: #ffb7b2; top: -10%; left: -10%; }
+        .aurora-2 { background: #e8dbfc; bottom: -10%; right: -10%; animation-delay: -5s; }
+
+        @keyframes floatingAurora {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            50% { transform: translate(80px, 50px) scale(1.2) rotate(180deg); }
+            100% { transform: translate(-40px, -80px) scale(0.9) rotate(360deg); }
+        }
+
+        /* Canvas Particle Layer */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* ==========================================
+           3. MASTER SCREEN CONTROL
+           ========================================== */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.96) translateY(10px);
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+        }
+
+        .screen.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1) translateY(0);
+        }
+
+        /* ==========================================
+           4. GLASSMORPHISM UI CORE CARDS
+           ========================================== */
+        .glass-card {
+            background: var(--white-glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--border-glass);
+            border-radius: 32px;
+            padding: 40px 32px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: var(--shadow-premium);
+            text-align: center;
+            position: relative;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .screen.active .glass-card {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* ==========================================
+           5. PREMIUM COMPONENT STYLES
+           ========================================== */
+        /* Text Typing & Headings */
+        .typing-container {
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .romantic-text {
+            font-family: var(--font-serif);
+            font-size: 19pt;
+            line-height: 1.6;
+            font-weight: 600;
+            color: #4a283d;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            letter-spacing: 0.5px;
+        }
+
+        .accent-title {
+            font-family: var(--font-accent);
+            font-size: 36pt;
+            color: var(--rose-gold);
+            margin: 15px 0;
+        }
+
+        /* Progress Bar Section */
+        .progress-wrapper {
+            width: 100%;
+            margin-bottom: 35px;
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10.5pt;
+            font-weight: 600;
+            color: var(--rose-gold);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.35);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--pink-soft), var(--rose-gold));
+            border-radius: 10px;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px rgba(255,183,178,0.5);
+        }
+
+        /* Elegant Interaction Buttons */
+        .btn-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 15px;
+            position: relative;
+            min-height: 70px;
+        }
+
+        .premium-btn {
+            padding: 14px 36px;
+            font-size: 11.5pt;
+            font-weight: 600;
+            font-family: var(--font-sans);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            outline: none;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #ffb7b2, #ff9aa2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 8px 25px rgba(255, 154, 162, 0.35);
+        }
+
+        .btn-yes:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 12px 30px rgba(255, 154, 162, 0.5);
+        }
+
+        .btn-no {
+            background: var(--white-glass-intense);
+            color: #7d6b75;
+            border: 1px solid var(--border-glass);
+            z-index: 50;
+        }
+
+        /* Escape animation wrapper for 'Tidak' button */
+        .no-btn-wrapper {
+            position: relative;
+            transition: all 0.25s ease-out;
+        }
+
+        /* Bubble Alert Message Tooltip */
+        .cute-bubble {
+            position: absolute;
+            bottom: 85px;
+            background: white;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-size: 9.5pt;
+            font-weight: 600;
+            color: var(--rose-gold);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            opacity: 0;
+            transform: scale(0.8) translateY(10px);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 100;
+            border: 1px solid #ffe5ec;
+        }
+
+        .cute-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px 6px 0;
+            border-style: solid;
+            border-color: white transparent;
+            display: block;
+            width: 0;
+        }
+
+        .cute-bubble.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        /* ==========================================
+           6. MINI GAME COMPONENT STYLES
+           ========================================== */
+        .game-meta {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 12px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            font-size: 10pt;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        .game-canvas-area {
+            width: 100%;
+            height: 280px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            border: 1px dashed rgba(183, 110, 121, 0.3);
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .game-heart {
+            position: absolute;
+            font-size: 26pt;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.1s ease;
+            filter: drop-shadow(0 4px 8px rgba(255,154,162,0.4));
+            animation: heartPulse 0.8s infinite alternate ease-in-out;
+        }
+
+        @keyframes heartPulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.15); }
+        }
+
+        /* ==========================================
+           7. OPENING STAGE EFFECTS
+           ========================================== */
+        .light-sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 20px 5px white;
+            opacity: 0;
+            transition: opacity 1.5s ease, box-shadow 1.5s ease;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 5;
+        }
+
+        /* ==========================================
+           8. POPUP DIALOG LUXURY TOAST
+           ========================================== */
+        .luxury-toast {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            padding: 16px 36px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-premium);
+            z-index: 9999;
+            transition: bottom 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            color: #4a283d;
+        }
+
+        .luxury-toast.show {
+            bottom: 40px;
+        }
+
+        /* Ripple Effect Utility */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: rippleEffect 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes rippleEffect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Premium Mouse Trail Sparkles */
+        .mouse-trail {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #fff 20%, #ffb7b2 80%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            box-shadow: 0 0 10px #ff9aa2;
+            animation: fadeOutTrail 0.6s forwards ease-out;
+        }
+
+        @keyframes fadeOutTrail {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        /* Responsive Breakpoints Optimization */
+        @media(max-width: 480px) {
+            .glass-card {
+                padding: 32px 20px;
+                border-radius: 28px;
+            }
+            .romantic-text {
+                font-size: 16pt;
+            }
+            .premium-btn {
+                padding: 12px 28px;
+                font-size: 10.5pt;
+            }
+            .accent-title {
+                font-size: 30pt;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BACKGROUND ENGINE -->
+    <div class="bg-container" id="globalBg">
+        <div class="aurora aurora-1"></div>
+        <div class="aurora aurora-2"></div>
+    </div>
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- 1. OPENING SCREEN -->
+    <section class="screen active" id="opening-screen">
+        <div class="light-sparkle" id="centerLight"></div>
+        <div class="glass-card" id="introCard" style="opacity: 0; transform: translateY(40px); display: none;">
+            <div class="typing-container">
+                <p class="romantic-text" id="introText"></p>
+            </div>
+            <div class="btn-container" id="introBtnContainer" style="opacity: 0; transition: opacity 0.8s ease;">
+                <button class="premium-btn btn-yes" onclick="startExperience(event)">💖 Mulai</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. QUIZ QUESTION SCREEN -->
+    <section class="screen" id="quiz-screen">
+        <div class="glass-card">
+            <div class="progress-wrapper">
+                <div class="progress-stats">
+                    <span>PERNYATAAN</span>
+                    <span id="quizIndexLabel">1 / 10</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="quizProgressBar"></div>
+                </div>
+            </div>
+
+            <div class="typing-container" style="min-height: 110px;">
+                <p class="romantic-text" id="questionText"></p>
+            </div>
+
+            <div class="btn-container">
+                <button class="premium-btn btn-yes" id="btnYes" onclick="handleAnswerYes(event)">💖 Iya</button>
+                <div class="no-btn-wrapper" id="noBtnContainer">
+                    <button class="premium-btn btn-no" id="btnNo" onmouseenter="escapeButton(event)" onclick="escapeButton(event)" ontouchstart="escapeButton(event)">🤍 Tidak</button>
+                </div>
+                <div class="cute-bubble" id="cuteBubble">Hehe 😝</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. INTERACTIVE MINI GAME SCREEN -->
+    <section class="screen" id="game-screen">
+        <div class="glass-card" style="max-width: 520px;">
+            <h2 class="romantic-text" style="font-size: 16pt; margin-bottom: 5px;">🎮 Mini Game</h2>
+            <p style="font-size: 9.5pt; color: var(--rose-gold); margin-bottom: 15px; font-weight: 500;">Tangkap Semua Love Bersama!</p>
+            
+            <div class="game-meta">
+                <div>Skor: <span id="gameScore" style="color: #ff9aa2;">0</span> / 25</div>
+                <div>Waktu: <span id="gameTimer" style="color: #ff9aa2;">0.0</span>s</div>
+            </div>
+
+            <div class="progress-bar-bg" style="margin-bottom: 15px;">
+                <div class="progress-bar-fill" id="gameProgressBar"></div>
+            </div>
+
+            <div class="game-canvas-area" id="gameArea"></div>
+        </div>
+    </section>
+
+    <!-- 4. FINAL CELEBRATION SCREEN -->
+    <section class="screen" id="final-screen">
+        <div class="glass-card">
+            <h1 class="accent-title">Selamanya Bersama</h1>
+            <div class="typing-container" style="min-height: 120px; margin-bottom: 20px;">
+                <p class="romantic-text" id="finalText" style="font-size: 14pt; font-weight: 500;"></p>
+            </div>
+            <h2 id="finalHeartLabel" style="font-size: 18pt; color: #ff9aa2; opacity: 0; transition: opacity 1s ease; margin-bottom: 30px;">❤️ Selamanya Bersama ❤️</h2>
+            
+            <div class="btn-container">
+                <button class="premium-btn btn-yes" id="btnTelegram" onclick="submitDataToTelegram(event)" style="padding: 15px 45px; font-size: 12pt;">Kirim Jawaban 📨</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="luxury-toast" id="luxuryToast">
+        <span>❤️</span> <span id="toastMessage">Jawaban berhasil dikirim!</span>
+    </div>
+
+    <!-- ==========================================
+       JAVASCRIPT CONFIGURATION & LOGIC SYSTEM
+       ========================================== -->
+    <script>
+        const BOT_TOKEN = "8194599694:AAGx9dRZMFER1n4hixHRIdR3e7x8V9hQ9dU";
+        const CHAT_ID = "7338916279";
+
+        const quizQuestions = [
+            "Masih mau menemani aku sampai nanti?",
+            "Kalau suatu hari aku gagal, kamu tetap ada?",
+            "Kalau kita sedang berbeda pendapat, mau saling memahami?",
+            "Apa kamu percaya hubungan ini layak diperjuangkan?",
+            "Kalau aku lagi capek, mau jadi tempat pulangku?",
+            "Mau membuat banyak kenangan bersamaku?",
+            "Kalau nanti kita sukses, masih mau tetap sederhana bersama?",
+            "Apa kamu yakin memilih aku?",
+            "Kalau suatu hari kita berjauhan, kamu tetap bertahan?",
+            "Boleh aku tetap menjadi alasan kamu tersenyum?"
+        ];
+
+        const escapeMessages = [
+            "Hehe 😝",
+            "Yakin?",
+            "Coba pilih yang satunya.",
+            "Aku nggak percaya.",
+            "Pilihan satunya lebih bagus ❤️",
+            "Gabisa diklik kan? 😜",
+            "Iya aja deh sayang..."
+        ];
+
+        let currentQuestionIndex = 0;
+        let noButtonChasedCount = 0;
+        let yesButtonScale = 1;
+        
+        let score = 0;
+        let gameActive = false;
+        let gameStartTime = 0;
+        let gameTimerInterval = null;
+        let totalElapsedGameTime = 0;
+
+        let currentVisualState = 'darkness'; 
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+        let mouseCoordinates = { x: null, y: null };
+
+        let audioContext = null;
+        let bgMusic = new Audio("https://ar-hosting.pages.dev/1784233315964.mp3");
+        bgMusic.loop = true;
+        bgMusic.volume = 0.6;
+
+        function playMusicOnLoad() {
+            if (bgMusic.paused) {
+                let playPromise = bgMusic.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Browser memblokir autoplay, menunggu sentuhan dari user.");
+                    });
+                }
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Coba putar langsung saat web dibuka
+            playMusicOnLoad();
+            
+            // Trik rahasia: Kalau diblokir, putar saat user menyentuh layar di bagian mana pun
+            document.body.addEventListener('click', playMusicOnLoad, { once: true });
+            document.body.addEventListener('touchstart', playMusicOnLoad, { once: true });
+            adjustCanvasResolution();
+            window.addEventListener('resize', adjustCanvasResolution);
+            
+            // Efek Cursor Trail premium & interaktif
+            window.addEventListener('mousemove', (e) => {
+                mouseCoordinates.x = e.clientX;
+                mouseCoordinates.y = e.clientY;
+                createMouseTrailEffect(e.clientX, e.clientY);
+                if (Math.random() < 0.15 && currentVisualState !== 'darkness') {
+                    generateSparkleParticle(e.clientX, e.clientY);
+                }
+            });
+
+            window.addEventListener('touchmove', (e) => {
+                if(e.touches.length > 0 && currentVisualState !== 'darkness') {
+                    mouseCoordinates.x = e.touches[0].clientX;
+                    mouseCoordinates.y = e.touches[0].clientY;
+                    createMouseTrailEffect(e.touches[0].clientX, e.touches[0].clientY);
+                    generateSparkleParticle(e.touches[0].clientX, e.touches[0].clientY);
+                }
+            });
+
+            requestAnimationFrame(renderParticleLoopEngine);
+            triggerPremiumOpeningSequence();
+        });
+
+        function adjustCanvasResolution() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function createMouseTrailEffect(x, y) {
+            const trail = document.createElement('div');
+            trail.className = 'mouse-trail';
+            trail.style.left = `${x}px`;
+            trail.style.top = `${y}px`;
+            document.body.appendChild(trail);
+            setTimeout(() => trail.remove(), 600);
+        }
+
+        /* ------------------------------------------
+           SOUND GENERATOR ENGINE (Web Audio API)
+           ------------------------------------------ */
+        function tryInitAudio() {
+            if (!audioContext) {
+                window.AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioContext = new AudioContext();
+            }
+        }
+
+        // Bunyi Pop/Click Premium Romantis saat Tombol Ditekan (Kecuali BGM)
+        function playPremiumClickSound(type = 'success') {
+            tryInitAudio();
+            if (!audioContext) return;
+            
+            const now = audioContext.currentTime;
+            const osc = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            
+            osc.type = 'sine';
+            if (type === 'success') {
+                // Suara dentingan lembut naik ceria
+                osc.frequency.setValueAtTime(440, now); // A4
+                osc.frequency.exponentialRampToValueAtTime(880, now + 0.1); // A5
+                gain.gain.setValueAtTime(0.04, now);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2);
+            } else if (type === 'fail') {
+                // Suara cemberut lucu untuk tombol tidak
+                osc.frequency.setValueAtTime(330, now); // E4
+                osc.frequency.linearRampToValueAtTime(220, now + 0.15); // A3
+                gain.gain.setValueAtTime(0.03, now);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2);
+            }
+            
+            osc.connect(gain);
+            gain.connect(audioContext.destination);
+            osc.start(now);
+            osc.stop(now + 0.25);
+        }
+
+        /* ------------------------------------------
+           PREMIUM OPENING TIMELINE CONTROLLER
+           ------------------------------------------ */
+        function triggerPremiumOpeningSequence() {
+            const centerLight = document.getElementById('centerLight');
+            const globalBg = document.getElementById('globalBg');
+            const introCard = document.getElementById('introCard');
+
+            // 1. Cahaya muncul perlahan dari tengah
+            setTimeout(() => {
+                centerLight.style.opacity = '1';
+                centerLight.style.boxShadow = '0 0 150px 50px white, 0 0 250px 100px #ffb7b2';
+            }, 1000);
+
+            // 2. Ledakan Bunga & Transisi Background
+            setTimeout(() => {
+                currentVisualState = 'opening';
+                document.body.style.backgroundColor = 'transparent';
+                globalBg.style.opacity = '1';
+                globalBg.style.animation = 'gradientBG 15s ease infinite';
+                centerLight.style.opacity = '0';
+                
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2;
+                generateVolumetricParticleBurst(300, centerX, centerY, true); 
+                
+                for(let i=0; i<60; i++){
+                    particlesArray.push(new RomanticParticleVector());
+                }
+            }, 3000);
+
+            // 3. Animasi Teks Mengetik
+            setTimeout(() => {
+                introCard.style.display = 'block';
+                setTimeout(() => {
+                    introCard.style.opacity = '1';
+                    introCard.style.transform = 'translateY(0)';
+                    runPremiumTypingEffect("Untuk seseorang yang selalu berhasil membuat hariku terasa lebih indah.", 'introText', () => {
+                        setTimeout(() => {
+                            fadeOutElement('introText', () => {
+                                runPremiumTypingEffect("Aku menyiapkan sesuatu yang spesial untukmu.", 'introText', () => {
+                                    document.getElementById('introBtnContainer').style.opacity = '1';
+                                });
+                            });
+                        }, 2000);
+                    });
+                }, 100);
+            }, 6500);
+        }
+
+        function runPremiumTypingEffect(text, elementId, completeCallback) {
+            const targetElement = document.getElementById(elementId);
+            targetElement.innerHTML = '';
+            let letterIndex = 0;
+            
+            function printLetter() {
+                if (letterIndex < text.length) {
+                    targetElement.innerHTML += text.charAt(letterIndex);
+                    letterIndex++;
+                    setTimeout(printLetter, 45 + Math.random() * 25);
+                } else if (completeCallback) {
+                    completeCallback();
+                }
+            }
+            printLetter();
+        }
+
+        function fadeOutElement(elementId, callback) {
+            const el = document.getElementById(elementId);
+            el.style.opacity = '0';
+            el.style.transition = 'opacity 0.6s ease';
+            setTimeout(() => {
+                el.innerHTML = '';
+                el.style.opacity = '1';
+                if(callback) callback();
+            }, 600);
+        }
+
+        function navigateToScreen(targetScreenId) {
+            document.querySelectorAll('.screen').forEach(scr => scr.classList.remove('active'));
+            setTimeout(() => {
+                const targetNode = document.getElementById(targetScreenId);
+                targetNode.classList.add('active');
+            }, 400);
+        }
+
+        function startExperience(event) {
+            injectPremiumRipple(event);
+            
+            playMusicOnLoad(); // Pastikan lagu bermain
+
+            playPremiumClickSound('success');
+            currentVisualState = 'standard';
+            navigateToScreen('quiz-screen');
+            renderQuestionEntry();
+        }
+
+        function renderQuestionEntry() {
+            const currentQuestion = quizQuestions[currentQuestionIndex];
+            const totalQuestionsCount = quizQuestions.length;
+            const progressPercentage = ((currentQuestionIndex + 1) / totalQuestionsCount) * 100;
+            document.getElementById('quizProgressBar').style.width = `${progressPercentage}%`;
+            document.getElementById('quizIndexLabel').innerText = `${currentQuestionIndex + 1} / ${totalQuestionsCount}`;
+            runPremiumTypingEffect(currentQuestion, 'questionText');
+        }
+
+        function handleAnswerYes(event) {
+            injectPremiumRipple(event);
+            playPremiumClickSound('success');
+            
+            // Ledakan partikel kecil setiap klik "Iya" biar seru
+            generateVolumetricParticleBurst(25, event.clientX, event.clientY, true);
+
+            const noBtnWrapper = document.getElementById('noBtnContainer');
+            noBtnWrapper.style.transform = 'translate(0px, 0px) scale(1) rotate(0deg)';
+            noBtnWrapper.style.opacity = '1';
+            
+            yesButtonScale = 1;
+            document.getElementById('btnYes').style.transform = `scale(${yesButtonScale})`;
+            noButtonChasedCount = 0;
+
+            if (currentQuestionIndex < quizQuestions.length - 1) {
+                currentQuestionIndex++;
+                renderQuestionEntry();
+            } else {
+                navigateToScreen('game-screen');
+                initializeMiniGameEngine();
+            }
+        }
+
+        function escapeButton(event) {
+            if (event) event.preventDefault();
+            noButtonChasedCount++;
+            
+            // Bunyi suara lucu/gagal tipis ketika tombol Tidak dikejar
+            playPremiumClickSound('fail');
+
+            const noBtnWrapper = document.getElementById('noBtnContainer');
+            const btnYes = document.getElementById('btnYes');
+            const bubble = document.getElementById('cuteBubble');
+
+            const paddingBoundary = 80;
+            const minX = paddingBoundary - window.innerWidth / 3;
+            const maxX = window.innerWidth / 3 - paddingBoundary;
+            const minY = paddingBoundary - window.innerHeight / 3;
+            const maxY = window.innerHeight / 3 - paddingBoundary;
+
+            const randomTranslationX = Math.random() * (maxX - minX) + minX;
+            const randomTranslationY = Math.random() * (maxY - minY) + minY;
+            
+            const escapeSpeedScaleMultiplier = Math.min(1 + (noButtonChasedCount * 0.15), 3);
+            const dynamicRotationDegree = (Math.random() - 0.5) * 70 * escapeSpeedScaleMultiplier;
+            const structuralScaleMetric = Math.random() > 0.5 ? (0.65 + Math.random() * 0.6) : (0.75 + Math.random() * 0.45);
+            const dynamicOpacityVal = Math.max(0.35, 1 - (Math.random() * 0.4));
+
+            noBtnWrapper.style.transform = `translate(${randomTranslationX}px, ${randomTranslationY}px) scale(${structuralScaleMetric}) rotate(${dynamicRotationDegree}deg)`;
+            noBtnWrapper.style.opacity = dynamicOpacityVal;
+
+            yesButtonScale += 0.12;
+            btnYes.style.transform = `scale(${yesButtonScale})`;
+            btnYes.style.boxShadow = `0 12px 35px rgba(255, 154, 162, ${0.35 + (yesButtonScale*0.05)})`;
+
+            const randomizedMessageIndex = Math.floor(Math.random() * escapeMessages.length);
+            bubble.innerText = escapeMessages[randomizedMessageIndex];
+            bubble.classList.add('active');
+            
+            bubble.style.transform = `translate(${randomTranslationX}px, ${randomTranslationY - 15}px) scale(1)`;
+            setTimeout(() => { bubble.classList.remove('active'); }, 1400);
+        }
+
+        function initializeMiniGameEngine() {
+            score = 0;
+            totalElapsedGameTime = 0.0;
+            gameActive = true;
+            gameStartTime = performance.now();
+
+            document.getElementById('gameScore').innerText = score;
+            document.getElementById('gameTimer').innerText = '0.0';
+            document.getElementById('gameProgressBar').style.width = '0%';
+
+            gameTimerInterval = setInterval(() => {
+                if(!gameActive) return;
+                const runtimeDelta = performance.now() - gameStartTime;
+                totalElapsedGameTime = (runtimeDelta / 1000).toFixed(1);
+                document.getElementById('gameTimer').innerText = totalElapsedGameTime;
+            }, 100);
+
+            spawnTargetGameHearts();
+        }
+
+        function spawnTargetGameHearts() {
+            const gameArea = document.getElementById('gameArea');
+            gameArea.innerHTML = '';
+            for(let i = 0; i < 25; i++) {
+                const targetHeartElement = document.createElement('div');
+                targetHeartElement.className = 'game-heart';
+                targetHeartElement.innerHTML = '❤️';
+                
+                targetHeartElement.style.left = `${Math.random() * 86 + 7}%`;
+                targetHeartElement.style.top = `${Math.random() * 75 + 10}%`;
+                targetHeartElement.style.transform = `scale(${0.6 + Math.random() * 0.7})`;
+                targetHeartElement.style.animationDelay = `${Math.random() * 2}s`;
+                targetHeartElement.style.animationDuration = `${0.6 + Math.random() * 0.6}s`;
+
+                targetHeartElement.addEventListener('click', (e) => triggerTargetCatchSuccess(e, targetHeartElement));
+                targetHeartElement.addEventListener('touchstart', (e) => triggerTargetCatchSuccess(e, targetHeartElement));
+                gameArea.appendChild(targetHeartElement);
+            }
+        }
+
+        function triggerTargetCatchSuccess(event, heartElementReference) {
+            if(event) { event.preventDefault(); event.stopPropagation(); }
+            if(heartElementReference.classList.contains('caught')) return;
+            
+            heartElementReference.classList.add('caught');
+            score++;
+            document.getElementById('gameScore').innerText = score;
+            document.getElementById('gameProgressBar').style.width = `${(score / 25) * 100}%`;
+
+            // Nada Pop game yang sudah disesuaikan
+            playTargetCatchAudioBeepTone();
+
+            heartElementReference.style.transform = 'scale(2.5)';
+            heartElementReference.style.opacity = '0';
+            heartElementReference.style.transition = 'all 0.4s ease-out';
+            
+            const boundingBox = heartElementReference.getBoundingClientRect();
+            generateVolumetricParticleBurst(12, boundingBox.left + boundingBox.width/2, boundingBox.top + boundingBox.height/2, true);
+
+            setTimeout(() => { heartElementReference.remove(); }, 400);
+
+            if (score >= 25) executeMiniGameVictorySequence();
+        }
+
+        function playTargetCatchAudioBeepTone() {
+            if (!audioContext) return;
+            try {
+                const now = audioContext.currentTime;
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, now); 
+                osc.frequency.exponentialRampToValueAtTime(880.00, now + 0.12); 
+                gain.gain.setValueAtTime(0.03, now);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+                osc.start(now);
+                osc.stop(now + 0.16);
+            } catch(e) {}
+        }
+
+        function executeMiniGameVictorySequence() {
+            gameActive = false;
+            clearInterval(gameTimerInterval);
+            currentVisualState = 'celebration';
+            document.getElementById('globalBg').classList.add('bg-bright');
+            
+            generateVolumetricParticleBurst(250, window.innerWidth/2, window.innerHeight/2, true);
+
+            setTimeout(() => {
+                navigateToScreen('final-screen');
+                runPremiumTypingEffect("Terima kasih sudah meluangkan waktu menyelesaikan semuanya. Aku berharap kita bisa terus membuat cerita yang indah bersama.", 'finalText', () => {
+                    setTimeout(() => { document.getElementById('finalHeartLabel').style.opacity = '1'; }, 500);
+                });
+            }, 800);
+        }
+
+        function submitDataToTelegram(event) {
+            injectPremiumRipple(event);
+            playPremiumClickSound('success');
+            const date = new Date();
+            const payload = `━━━━━━━━━━━━━━
+
+💌 Ada Jawaban Baru
+
+Semua pertanyaan:
+✅ Iya
+
+Mini Game:
+Selesai
+
+Skor:
+${score}
+
+Waktu:
+${totalElapsedGameTime} detik
+
+Tanggal: ${date.toLocaleDateString('id-ID')}
+Jam: ${date.toLocaleTimeString('id-ID')}
+Browser: ${navigator.userAgent.includes("Mobile") ? "Mobile Browser" : "Desktop Browser"}
+Resolusi: ${window.screen.width}x${window.screen.height}
+
+━━━━━━━━━━━━━━`;
+
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: CHAT_ID, text: payload, parse_mode: 'Markdown' })
+            }).then(() => showLuxuryToastNotice("Jawaban berhasil dikirim ❤️"))
+              .catch(() => showLuxuryToastNotice("Jawaban berhasil dikirim ❤️"));
+        }
+
+        function showLuxuryToastNotice(msg) {
+            const toastNode = document.getElementById('luxuryToast');
+            document.getElementById('toastMessage').innerText = msg;
+            toastNode.classList.add('show');
+            setTimeout(() => { toastNode.classList.remove('show'); }, 4000);
+        }
+
+        /* ------------------------------------------
+           FIXED HIGH FIDELITY PARTICLES ENGINE
+           ------------------------------------------ */
+        class RomanticParticleVector {
+            constructor(spawnX, spawnY, structuralType, isExplosion = false) {
+                this.x = spawnX !== undefined ? spawnX : Math.random() * canvas.width;
+                this.y = spawnY !== undefined ? spawnY : -20;
+                this.type = structuralType || this.determineType();
+                
+                this.size = (this.type === 'sparkle') ? 3 + Math.random() * 5 : 8 + Math.random() * 16;
+                
+                if (isExplosion) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = 2 + Math.random() * 12; 
+                    this.speedX = Math.cos(angle) * velocity;
+                    this.speedY = Math.sin(angle) * velocity;
+                } else {
+                    this.speedX = (Math.random() - 0.5) * 1.5;
+                    this.speedY = 1.5 + Math.random() * 2.5;
+                }
+                
+                this.rotationAngle = Math.random() * Math.PI * 2;
+                this.rotationVelocity = (Math.random() - 0.5) * 0.05;
+                
+                this.oscillationFreq = 0.01 + Math.random() * 0.02;
+                this.oscillationAmp = 0.5 + Math.random() * 1.5;
+                this.timeTracker = Math.random() * 100;
+                
+                this.alpha = 0.8 + Math.random() * 0.2;
+                this.fadeVel = 0.002 + Math.random() * 0.004;
+                this.isExplosion = isExplosion;
+            }
+
+            determineType() {
+                const p = Math.random();
+                if(currentVisualState === 'celebration') {
+                    return p < 0.4 ? 'confetti' : (p < 0.7 ? 'rose' : 'heart');
+                }
+                return p < 0.45 ? 'sakura' : (p < 0.75 ? 'sparkle' : (p < 0.9 ? 'rose' : 'heart'));
+            }
+
+            update() {
+                this.timeTracker += this.oscillationFreq;
+                
+                if(this.isExplosion) {
+                    this.speedY += 0.15; 
+                    this.speedX *= 0.98; 
+                } else {
+                    this.x += Math.sin(this.timeTracker) * this.oscillationAmp;
+                }
+
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.rotationAngle += this.rotationVelocity;
+
+                if (currentVisualState === 'opening' || currentVisualState === 'celebration') {
+                    if(this.type === 'confetti' || this.type === 'sparkle' || this.isExplosion) {
+                        this.alpha -= this.fadeVel;
+                    }
+                }
+
+                if (this.y > canvas.height + 50 || this.x < -50 || this.x > canvas.width + 50 || this.alpha <= 0) {
+                    if (currentVisualState !== 'darkness') {
+                        this.reset();
+                    }
+                }
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -30;
+                this.type = this.determineType();
+                this.size = (this.type === 'sparkle') ? 3 + Math.random() * 5 : 8 + Math.random() * 16;
+                this.speedX = (Math.random() - 0.5) * 1.5;
+                this.speedY = 1.5 + Math.random() * 2.5;
+                this.alpha = 0.7 + Math.random() * 0.3;
+                this.isExplosion = false; 
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotationAngle);
+                ctx.globalAlpha = Math.max(0, this.alpha);
+
+                if (this.type === 'sakura') {
+                    ctx.fillStyle = '#ffb7b2';
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, this.size * 0.6, this.size, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (this.type === 'rose') {
+                    ctx.fillStyle = '#b76e79';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size * 0.7, 0, Math.PI);
+                    ctx.lineTo(0, this.size);
+                    ctx.fill();
+                } else if (this.type === 'heart') {
+                    ctx.fillStyle = '#ff9aa2';
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.bezierCurveTo(-this.size/2, -this.size/2, -this.size, +this.size/3, 0, this.size);
+                    ctx.bezierCurveTo(this.size, +this.size/3, this.size/2, -this.size/2, 0, 0);
+                    ctx.fill();
+                } else if (this.type === 'sparkle') {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.shadowColor = '#ffe5ec';
+                    ctx.shadowBlur = 8;
+                    ctx.beginPath();
+                    for (let i=0; i<4; i++) { ctx.lineTo(0, -this.size); ctx.rotate(Math.PI/2); }
+                    ctx.fill();
+                } else if (this.type === 'confetti') {
+                    const colors = ['#ffb7b2', '#ff9aa2', '#ffc6ff', '#e8dbfc', '#ffd166'];
+                    ctx.fillStyle = colors[Math.floor(Math.abs(this.x) % colors.length)];
+                    ctx.fillRect(-this.size/2, -this.size/4, this.size, this.size/2);
+                }
+                ctx.restore();
+            }
+        }
+
+        function generateVolumetricParticleBurst(count, x, y, isExplosion = false) {
+            for(let i = 0; i < count; i++) {
+                particlesArray.push(new RomanticParticleVector(x, y, null, isExplosion));
+            }
+        }
+
+        function generateSparkleParticle(x, y) {
+            const p = new RomanticParticleVector(x, y, 'sparkle');
+            p.speedX = (Math.random() - 0.5) * 2;
+            p.speedY = (Math.random() - 0.5) * 2;
+            particlesArray.push(p);
+        }
+
+        function renderParticleLoopEngine() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (currentVisualState !== 'darkness') {
+                if (particlesArray.length > 600) {
+                    particlesArray.splice(0, particlesArray.length - 600);
+                }
+
+                particlesArray.forEach((p) => {
+                    p.update();
+                    p.draw();
+                });
+            }
+
+            requestAnimationFrame(renderParticleLoopEngine);
+        }
+
+        function injectPremiumRipple(e) {
+            const btn = e.currentTarget;
+            const ripple = document.createElement('span');
+            ripple.className = 'ripple';
+            const rect = btn.getBoundingClientRect();
+            const d = Math.max(rect.width, rect.height);
+            ripple.style.width = ripple.style.height = `${d}px`;
+            ripple.style.left = `${e.clientX - rect.left - d/2}px`;
+            ripple.style.top = `${e.clientY - rect.top - d/2}px`;
+            btn.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        }
+    </script>
+</body>
+</html>
