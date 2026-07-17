@@ -5,1161 +5,624 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Untuk Kamu yang Spesial ❤️</title>
     
-    <!-- Google Fonts: Premium Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&family=Parisienne&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* ==========================================
-           1. RESET & VARIABLES CONFIGURATION
-           ========================================== */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         :root {
-            --pink-pastel: #ffe5ec;
-            --pink-soft: #ffb7b2;
-            --purple-pastel: #e8dbfc;
-            --rose-gold: #b76e79;
-            --white-glass: rgba(255, 255, 255, 0.45);
-            --white-glass-intense: rgba(255, 255, 255, 0.7);
-            --border-glass: rgba(255, 255, 255, 0.6);
-            --shadow-premium: 0 20px 50px rgba(183, 110, 121, 0.15);
-            --shadow-glow: 0 0 25px rgba(255, 183, 178, 0.6);
-            --font-serif: 'Cinzel', serif;
-            --font-sans: 'Montserrat', sans-serif;
-            --font-accent: 'Parisienne', cursive;
+            --pink-pastel: #ffe5ec; --pink-soft: #ffb7b2; --purple-pastel: #e8dbfc; --rose-gold: #b76e79;
+            --white-glass: rgba(255, 255, 255, 0.45); --white-glass-intense: rgba(255, 255, 255, 0.75);
+            --border-glass: rgba(255, 255, 255, 0.6); --shadow-premium: 0 20px 50px rgba(0, 0, 0, 0.1);
+            --font-serif: 'Cinzel', serif; --font-sans: 'Montserrat', sans-serif; --font-accent: 'Parisienne', cursive;
+            --bg-hue: 0deg; 
         }
 
         body, html {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            font-family: var(--font-sans);
-            color: #4a3b42;
-            background-color: #0b070d; /* Start dark */
-            user-select: none;
-            transition: background-color 3s ease;
+            width: 100%; height: 100%; overflow: hidden; font-family: var(--font-sans); color: #4a3b42;
+            background-color: #0b070d; user-select: none; transition: background-color 3s ease;
         }
 
-        /* ==========================================
-           2. ANIMATED AURORA & GRADIENT BACKGROUND
-           ========================================== */
+        /* BACKGROUND ENGINE */
         .bg-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
             background: linear-gradient(-45deg, #ffc0cb, #f4e8ff, #ffe5ec, #e8dbfc, #fff0f5);
-            background-size: 400% 400%;
-            opacity: 0; /* Kept hidden during start screen darkness */
-            transition: opacity 4s cubic-bezier(0.4, 0, 0.2, 1);
+            background-size: 400% 400%; opacity: 0; transition: opacity 4s ease, filter 1.5s ease; filter: hue-rotate(var(--bg-hue));
         }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .bg-bright {
-            background: linear-gradient(-45deg, #fff0f5, #ffd6e8, #f5e6ff, #ffffff) !important;
-            background-size: 300% 300% !important;
-        }
-
-        /* Ambient aurora glow filters */
         .aurora {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.4;
-            mix-blend-mode: multiply;
-            pointer-events: none;
-            z-index: -1;
+            position: absolute; width: 600px; height: 600px; border-radius: 50%; filter: blur(120px); opacity: 0.5; mix-blend-mode: multiply; pointer-events: none; z-index: -1;
             animation: floatingAurora 20s infinite alternate ease-in-out;
         }
-        .aurora-1 { background: #ffb7b2; top: -10%; left: -10%; }
-        .aurora-2 { background: #e8dbfc; bottom: -10%; right: -10%; animation-delay: -5s; }
+        .aurora-1 { background: var(--pink-soft); top: -10%; left: -10%; transition: background 1s; }
+        .aurora-2 { background: var(--purple-pastel); bottom: -10%; right: -10%; animation-delay: -5s; transition: background 1s; }
+        @keyframes floatingAurora { 0% { transform: translate(0, 0) scale(1) rotate(0deg); } 50% { transform: translate(80px, 50px) scale(1.2) rotate(180deg); } 100% { transform: translate(-40px, -80px) scale(0.9) rotate(360deg); } }
+        #particleCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 
-        @keyframes floatingAurora {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            50% { transform: translate(80px, 50px) scale(1.2) rotate(180deg); }
-            100% { transform: translate(-40px, -80px) scale(0.9) rotate(360deg); }
-        }
-
-        /* Canvas Particle Layer */
-        #particleCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* ==========================================
-           3. MASTER SCREEN CONTROL
-           ========================================== */
+        /* SCREENS & CARDS */
         .screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 24px;
-            opacity: 0;
-            pointer-events: none;
-            transform: scale(0.96) translateY(10px);
-            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 10;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 24px; opacity: 0; pointer-events: none; transform: scale(0.96) translateY(20px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); z-index: 10;
         }
+        .screen.active { opacity: 1; pointer-events: auto; transform: scale(1) translateY(0); }
 
-        .screen.active {
-            opacity: 1;
-            pointer-events: auto;
-            transform: scale(1) translateY(0);
-        }
-
-        /* ==========================================
-           4. GLASSMORPHISM UI CORE CARDS
-           ========================================== */
         .glass-card {
-            background: var(--white-glass);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid var(--border-glass);
-            border-radius: 32px;
-            padding: 40px 32px;
-            width: 100%;
-            max-width: 480px;
-            box-shadow: var(--shadow-premium);
-            text-align: center;
-            position: relative;
-            transform: translateY(30px);
-            opacity: 0;
-            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: var(--white-glass); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid var(--border-glass); border-radius: 32px; padding: 40px 32px;
+            width: 100%; max-width: 480px; box-shadow: var(--shadow-premium); text-align: center; max-height: 85vh; overflow-y: auto; overflow-x: hidden; scrollbar-width: none;
         }
+        .glass-card::-webkit-scrollbar { display: none; }
 
-        .screen.active .glass-card {
-            transform: translateY(0);
-            opacity: 1;
-        }
+        /* TYPOGRAPHY */
+        .typing-container { min-height: 80px; display: flex; align-items: center; justify-content: center; margin-bottom: 25px; }
+        .romantic-text { font-family: var(--font-serif); font-size: 18pt; line-height: 1.5; font-weight: 600; color: #4a283d; }
+        .accent-title { font-family: var(--font-accent); font-size: 34pt; color: var(--rose-gold); margin: 10px 0 20px; transition: color 1s;}
+        .form-title { font-size: 13.5pt; margin-bottom: 25px; font-family: var(--font-sans); font-weight: 600; color: var(--rose-gold); transition: color 1s;}
 
-        /* ==========================================
-           5. PREMIUM COMPONENT STYLES
-           ========================================== */
-        /* Text Typing & Headings */
-        .typing-container {
-            min-height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-
-        .romantic-text {
-            font-family: var(--font-serif);
-            font-size: 19pt;
-            line-height: 1.6;
-            font-weight: 600;
-            color: #4a283d;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            letter-spacing: 0.5px;
-        }
-
-        .accent-title {
-            font-family: var(--font-accent);
-            font-size: 36pt;
-            color: var(--rose-gold);
-            margin: 15px 0;
-        }
-
-        /* Progress Bar Section */
-        .progress-wrapper {
-            width: 100%;
-            margin-bottom: 35px;
-        }
-
-        .progress-stats {
-            display: flex;
-            justify-content: space-between;
-            font-size: 10.5pt;
-            font-weight: 600;
-            color: var(--rose-gold);
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
-
-        .progress-bar-bg {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.35);
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.4);
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--pink-soft), var(--rose-gold));
-            border-radius: 10px;
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 10px rgba(255,183,178,0.5);
-        }
-
-        /* Elegant Interaction Buttons */
-        .btn-container {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            align-items: center;
-            margin-top: 15px;
-            position: relative;
-            min-height: 70px;
-        }
-
+        /* BUTTONS */
+        .btn-container { display: flex; gap: 15px; justify-content: center; align-items: center; position: relative; min-height: 60px; margin-top: 15px;}
         .premium-btn {
-            padding: 14px 36px;
-            font-size: 11.5pt;
-            font-weight: 600;
-            font-family: var(--font-sans);
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            outline: none;
-            position: relative;
-            overflow: hidden;
+            padding: 14px 32px; font-size: 11pt; font-weight: 600; font-family: var(--font-sans); border: none; border-radius: 50px; cursor: pointer; outline: none; position: relative; overflow: hidden;
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
-
-        .btn-yes {
-            background: linear-gradient(135deg, #ffb7b2, #ff9aa2);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.3);
-            box-shadow: 0 8px 25px rgba(255, 154, 162, 0.35);
+        .btn-yes { background: linear-gradient(135deg, var(--pink-soft), var(--rose-gold)); color: white; box-shadow: 0 8px 25px rgba(0,0,0,0.15); transition: all 1s ease;}
+        .btn-yes:hover { transform: translateY(-3px) scale(1.03); }
+        .btn-no { background: var(--white-glass-intense); color: #7d6b75; border: 1px solid var(--border-glass); z-index: 50; }
+        .no-btn-wrapper { position: relative; transition: all 0.25s ease-out; }
+        .glass-input {
+            width: 100%; padding: 14px 20px; border-radius: 20px; border: 1px solid rgba(183, 110, 121, 0.4); background: rgba(255, 255, 255, 0.7); font-family: var(--font-sans); font-size: 10.5pt;
+            color: #4a283d; font-weight: 500; outline: none; transition: all 0.3s ease; text-align: center; margin-bottom: 20px;
         }
+        .glass-input:focus { background: rgba(255, 255, 255, 0.95); border-color: var(--rose-gold); }
 
-        .btn-yes:hover {
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 12px 30px rgba(255, 154, 162, 0.5);
+        /* GRIDS FOR FEATURES */
+        .food-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .food-item {
+            background: rgba(255, 255, 255, 0.5); border: 1px solid var(--border-glass); border-radius: 16px; padding: 12px 5px; font-size: 22pt; cursor: pointer; transition: all 0.3s ease;
+            display: flex; flex-direction: column; align-items: center; gap: 5px;
         }
+        .food-item span { font-size: 7.5pt; font-weight: 600; font-family: var(--font-sans); color: #4a283d; text-align:center;}
+        .food-item.selected { background: var(--pink-soft); transform: scale(1.05); border-color: var(--rose-gold); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
-        .btn-no {
-            background: var(--white-glass-intense);
-            color: #7d6b75;
-            border: 1px solid var(--border-glass);
-            z-index: 50;
+        .color-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 25px; }
+        .color-item { width: 45px; height: 45px; border-radius: 50%; cursor: pointer; border: 3px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: all 0.3s ease; }
+        .color-item.selected { transform: scale(1.2); box-shadow: 0 0 20px rgba(255,255,255,0.8); border: 3px solid var(--rose-gold); }
+
+        /* LOVE SLIDER */
+        .slider-container { width: 100%; margin: 30px 0; position: relative; }
+        .love-slider { -webkit-appearance: none; width: 100%; height: 12px; border-radius: 10px; background: rgba(255,255,255,0.5); outline: none; transition: 0.2s; border: 1px solid rgba(255,255,255,0.8); }
+        .love-slider::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none; width: 35px; height: 35px; border-radius: 50%; background: #ff4d6d; cursor: pointer; border: 3px solid white; box-shadow: 0 0 15px rgba(255,77,109,0.5);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>');
+            background-size: 60%; background-repeat: no-repeat; background-position: center;
         }
+        #sliderValueText { font-size: 16pt; font-weight: bold; color: var(--rose-gold); margin-top: 15px; font-family: var(--font-accent);}
 
-        /* Escape animation wrapper for 'Tidak' button */
-        .no-btn-wrapper {
-            position: relative;
-            transition: all 0.25s ease-out;
+        /* FINGERPRINT FEATURE */
+        .fingerprint-btn {
+            width: 110px; height: 110px; border-radius: 50%; background: rgba(255,255,255,0.5); display: flex; justify-content: center; align-items: center; cursor: pointer;
+            border: 2px dashed var(--rose-gold); transition: all 0.3s; box-shadow: 0 0 15px rgba(255,183,178,0.5); margin: 0 auto;
         }
+        .fingerprint-btn.scanning { animation: pulseScan 0.5s infinite alternate; background: var(--pink-soft); border: 2px solid var(--rose-gold);}
+        @keyframes pulseScan { from { transform: scale(1); box-shadow: 0 0 10px var(--rose-gold); } to { transform: scale(1.15); box-shadow: 0 0 35px var(--rose-gold); } }
+        
+        /* HOLD TO SUBMIT */
+        .hold-btn-fill { position: absolute; left: 0; top: 0; height: 100%; background: rgba(255,255,255,0.4); width: 0%; pointer-events: none; transition: width 0.1s linear;}
 
-        /* Bubble Alert Message Tooltip */
+        /* STAR RATING */
+        .star-rating { display: flex; flex-direction: row-reverse; justify-content: center; gap: 10px; margin: 20px 0; }
+        .star-rating input { display: none; }
+        .star-rating label { font-size: 35pt; color: rgba(255,255,255,0.6); cursor: pointer; transition: all 0.2s; text-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .star-rating label:hover, .star-rating label:hover ~ label, .star-rating input:checked ~ label { color: #ffd700; text-shadow: 0 0 15px rgba(255, 215, 0, 0.6); transform: scale(1.1); }
+
+        /* PROGRESS & MISC */
+        .progress-wrapper { width: 100%; margin-bottom: 25px; }
+        .progress-stats { display: flex; justify-content: space-between; font-size: 9.5pt; font-weight: 600; color: var(--rose-gold); margin-bottom: 8px; transition: color 1s;}
+        .progress-bar-bg { width: 100%; height: 8px; background: rgba(255, 255, 255, 0.4); border-radius: 10px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--pink-soft), var(--rose-gold)); transition: width 0.1s linear, background 1s; }
+        
         .cute-bubble {
-            position: absolute;
-            bottom: 85px;
-            background: white;
-            padding: 10px 18px;
-            border-radius: 20px;
-            font-size: 9.5pt;
-            font-weight: 600;
-            color: var(--rose-gold);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-            opacity: 0;
-            transform: scale(0.8) translateY(10px);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            pointer-events: none;
-            white-space: nowrap;
-            z-index: 100;
-            border: 1px solid #ffe5ec;
+            position: absolute; bottom: 75px; background: white; padding: 8px 16px; border-radius: 20px; font-size: 9pt; font-weight: 600;
+            color: var(--rose-gold); box-shadow: 0 8px 20px rgba(0,0,0,0.06); opacity: 0; transform: scale(0.8) translateY(10px); pointer-events: none; z-index: 100;
         }
-
-        .cute-bubble::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 6px 6px 0;
-            border-style: solid;
-            border-color: white transparent;
-            display: block;
-            width: 0;
-        }
-
-        .cute-bubble.active {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-        }
-
-        /* ==========================================
-           6. MINI GAME COMPONENT STYLES
-           ========================================== */
-        .game-meta {
-            display: flex;
-            justify-content: space-around;
-            background: rgba(255, 255, 255, 0.3);
-            padding: 12px;
-            border-radius: 20px;
-            margin-bottom: 25px;
-            font-size: 10pt;
-            font-weight: 600;
-            border: 1px solid rgba(255,255,255,0.4);
-        }
-
-        .game-canvas-area {
-            width: 100%;
-            height: 280px;
-            position: relative;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 24px;
-            border: 1px dashed rgba(183, 110, 121, 0.3);
-            overflow: hidden;
-            margin-top: 15px;
-        }
-
-        .game-heart {
-            position: absolute;
-            font-size: 26pt;
-            cursor: pointer;
-            user-select: none;
-            transition: transform 0.1s ease;
-            filter: drop-shadow(0 4px 8px rgba(255,154,162,0.4));
-            animation: heartPulse 0.8s infinite alternate ease-in-out;
-        }
-
-        @keyframes heartPulse {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.15); }
-        }
-
-        /* ==========================================
-           7. OPENING STAGE EFFECTS
-           ========================================== */
-        .light-sparkle {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 0 20px 5px white;
-            opacity: 0;
-            transition: opacity 1.5s ease, box-shadow 1.5s ease;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 5;
-        }
-
-        /* ==========================================
-           8. POPUP DIALOG LUXURY TOAST
-           ========================================== */
+        .cute-bubble.active { opacity: 1; transform: scale(1) translateY(0); transition: all 0.3s; }
+        
         .luxury-toast {
-            position: fixed;
-            bottom: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border-glass);
-            padding: 16px 36px;
-            border-radius: 50px;
-            box-shadow: var(--shadow-premium);
-            z-index: 9999;
-            transition: bottom 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 600;
-            color: #4a283d;
+            position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px); border: 1px solid var(--border-glass); padding: 14px 30px; border-radius: 50px;
+            box-shadow: var(--shadow-premium); z-index: 9999; transition: bottom 0.5s; display: flex; align-items: center; gap: 10px; font-weight: 600; width:max-content;
         }
-
-        .luxury-toast.show {
-            bottom: 40px;
-        }
-
-        /* Ripple Effect Utility */
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            transform: scale(0);
-            animation: rippleEffect 0.6s linear;
-            pointer-events: none;
-        }
-
-        @keyframes rippleEffect {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-
-        /* Premium Mouse Trail Sparkles */
-        .mouse-trail {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            background: radial-gradient(circle, #fff 20%, #ffb7b2 80%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 99999;
-            box-shadow: 0 0 10px #ff9aa2;
-            animation: fadeOutTrail 0.6s forwards ease-out;
-        }
-
-        @keyframes fadeOutTrail {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(0); opacity: 0; }
-        }
-
-        /* Responsive Breakpoints Optimization */
-        @media(max-width: 480px) {
-            .glass-card {
-                padding: 32px 20px;
-                border-radius: 28px;
-            }
-            .romantic-text {
-                font-size: 16pt;
-            }
-            .premium-btn {
-                padding: 12px 28px;
-                font-size: 10.5pt;
-            }
-            .accent-title {
-                font-size: 30pt;
-            }
-        }
+        .luxury-toast.show { bottom: 40px; }
+        
+        .game-canvas-area { width: 100%; height: 260px; position: relative; background: rgba(255, 255, 255, 0.2); border-radius: 24px; border: 1px dashed rgba(255,255,255,0.5); overflow: hidden; margin-top: 10px; }
+        .game-heart { position: absolute; font-size: 26pt; cursor: pointer; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)); animation: heartPulse 0.8s infinite alternate ease-in-out; }
+        
+        .light-sparkle { position: absolute; width: 6px; height: 6px; background: white; border-radius: 50%; box-shadow: 0 0 20px 5px white; opacity: 0; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 5; }
+        .ripple { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.6); transform: scale(0); animation: rippleEffect 0.6s linear; pointer-events: none; }
+        @media(max-width: 480px) { .food-grid{ gap:8px;} .food-item{font-size:18pt; padding:10px 2px;} .color-item{width: 40px; height: 40px;} }
     </style>
 </head>
 <body>
 
-    <!-- BACKGROUND ENGINE -->
-    <div class="bg-container" id="globalBg">
-        <div class="aurora aurora-1"></div>
-        <div class="aurora aurora-2"></div>
-    </div>
+    <div class="bg-container" id="globalBg"><div class="aurora aurora-1"></div><div class="aurora aurora-2"></div></div>
     <canvas id="particleCanvas"></canvas>
 
-    <!-- 1. OPENING SCREEN -->
+    <!-- 0. OPENING -->
     <section class="screen active" id="opening-screen">
         <div class="light-sparkle" id="centerLight"></div>
         <div class="glass-card" id="introCard" style="opacity: 0; transform: translateY(40px); display: none;">
-            <div class="typing-container">
-                <p class="romantic-text" id="introText"></p>
-            </div>
+            <div class="typing-container"><p class="romantic-text" id="introText"></p></div>
             <div class="btn-container" id="introBtnContainer" style="opacity: 0; transition: opacity 0.8s ease;">
                 <button class="premium-btn btn-yes" onclick="startExperience(event)">💖 Mulai</button>
             </div>
         </div>
     </section>
 
-    <!-- 2. QUIZ QUESTION SCREEN -->
+    <!-- 1. NAMA -->
+    <section class="screen" id="name-screen">
+        <div class="glass-card">
+            <h2 class="form-title">Hai! Boleh tau nama cantiknya? ✨</h2>
+            <input type="text" id="inputNama" class="glass-input" placeholder="Ketik nama panggilan kamu...">
+            <button class="premium-btn btn-yes" onclick="nextScreen('name-screen', 'mood-screen', validateName)" style="width: 100%;">Lanjut 💕</button>
+        </div>
+    </section>
+
+    <!-- NEW FEATURE 1: MOOD METER -->
+    <section class="screen" id="mood-screen">
+        <div class="glass-card">
+            <h2 class="form-title">Sebelum lanjut, hari ini lagi ngerasa gimana? 🥺</h2>
+            <div class="food-grid" id="moodGrid">
+                <div class="food-item" onclick="selectGridOption('mood', '🥰 Seneng', this)">🥰<span>Seneng</span></div>
+                <div class="food-item" onclick="selectGridOption('mood', '🥺 Kangen', this)">🥺<span>Kangen</span></div>
+                <div class="food-item" onclick="selectGridOption('mood', '😮‍💨 Capek', this)">😮‍💨<span>Capek</span></div>
+                <div class="food-item" onclick="selectGridOption('mood', '😤 Bete', this)">😤<span>Bete</span></div>
+                <div class="food-item" onclick="selectGridOption('mood', '✨ Semangat', this)">✨<span>Semangat</span></div>
+                <div class="food-item" onclick="selectGridOption('mood', '🙃 Random', this)">🙃<span>Random</span></div>
+            </div>
+            <button class="premium-btn btn-yes" onclick="nextScreen('mood-screen', 'food-screen', () => validateGrid('mood', 'Pilih perasaan kamu dulu yaa!'))" style="width: 100%;">Lanjut 💕</button>
+        </div>
+    </section>
+
+    <!-- 2. MAKANAN (EXPANDED) -->
+    <section class="screen" id="food-screen">
+        <div class="glass-card">
+            <h2 class="form-title">Kalau lagi ngambek, enaknya disogok pakai apa nih? 😋</h2>
+            <div class="food-grid" id="foodGrid">
+                <div class="food-item" onclick="selectGridOption('food', '🍲 Seblak', this)">🍲<span>Seblak</span></div>
+                <div class="food-item" onclick="selectGridOption('food', '🧋 Boba', this)">🧋<span>Boba</span></div>
+                <div class="food-item" onclick="selectGridOption('food', '🍣 Sushi', this)">🍣<span>Sushi</span></div>
+                <div class="food-item" onclick="selectGridOption('food', '🍦 Es Krim', this)">🍦<span>Es Krim</span></div>
+                <div class="food-item" onclick="selectGridOption('food', '🍫 Cokelat', this)">🍫<span>Cokelat</span></div>
+                <div class="food-item" onclick="selectGridOption('food', '🥞 Martabak', this)">🥞<span>Martabak</span></div>
+                <div class="food-item" onclick="selectGridOption('food', '🍢 Sate', this)">🍢<span>Sate</span></div>
+                <div class="food-item" onclick="selectGridOption('food', '🥟 Dimsum', this)">🥟<span>Dimsum</span></div>
+                <div class="food-item" onclick="selectGridOption('food', '🥣 Bakso', this)">🥣<span>Bakso</span></div>
+            </div>
+            <input type="text" id="inputMakananCustom" class="glass-input" placeholder="Atau ketik sendiri di sini..." oninput="clearGrid('food')">
+            <button class="premium-btn btn-yes" onclick="nextScreen('food-screen', 'color-screen', validateFood)" style="width: 100%;">Ini Enak! 🤤</button>
+        </div>
+    </section>
+
+    <!-- 3. WARNA (EXPANDED DYNAMIC THEMING) -->
+    <section class="screen" id="color-screen">
+        <div class="glass-card">
+            <h2 class="form-title">Pilih warna yang paling menggambarkan kamu! 🎨</h2>
+            <p style="font-size: 9pt; margin-bottom: 15px; color: #4a283d;">Nanti tampilan webnya berubah lho!</p>
+            <div class="color-grid">
+                <!-- Row 1 -->
+                <div class="color-item" style="background: #ffb7b2;" onclick="selectTheme('Pink', '#ffb7b2', '#b76e79', 0, this)"></div>
+                <div class="color-item" style="background: #d4a5ff;" onclick="selectTheme('Lilac', '#e8dbfc', '#8b5a96', 50, this)"></div>
+                <div class="color-item" style="background: #a8e6cf;" onclick="selectTheme('Matcha', '#d4f0db', '#4a7c59', -90, this)"></div>
+                <div class="color-item" style="background: #a1c4fd;" onclick="selectTheme('Sky Blue', '#c2e9fb', '#4a739c', 190, this)"></div>
+                <div class="color-item" style="background: #ffd3b6;" onclick="selectTheme('Peach', '#ffe5d9', '#d97b56', -30, this)"></div>
+                <!-- Row 2 -->
+                <div class="color-item" style="background: #80cbc4;" onclick="selectTheme('Mint', '#b2dfdb', '#00695c', -120, this)"></div>
+                <div class="color-item" style="background: #ce93d8;" onclick="selectTheme('Lavender', '#f3e5f5', '#6a1b9a', 70, this)"></div>
+                <div class="color-item" style="background: #ffcc80;" onclick="selectTheme('Sunset', '#fff3e0', '#e65100', -15, this)"></div>
+                <div class="color-item" style="background: #f48fb1;" onclick="selectTheme('Rose', '#fce4ec', '#ad1457', -10, this)"></div>
+                <div class="color-item" style="background: #fff59d;" onclick="selectTheme('Lemon', '#fffde7', '#f57f17', -60, this)"></div>
+            </div>
+            <button class="premium-btn btn-yes" onclick="nextScreen('color-screen', 'flower-screen', null)" style="width: 100%;">Tadaa! ✨</button>
+        </div>
+    </section>
+
+    <!-- NEW FEATURE 2: FLOWER PICKER (Changes Particles!) -->
+    <section class="screen" id="flower-screen">
+        <div class="glass-card">
+            <h2 class="form-title">Kalau dikasih bunga, kamu pilih yang mana? 🌸</h2>
+            <div class="food-grid" id="flowerGrid">
+                <div class="food-item" onclick="selectGridOption('flower', 'Mawar', this)">🌹<span>Mawar</span></div>
+                <div class="food-item" onclick="selectGridOption('flower', 'Tulip', this)">🌷<span>Tulip</span></div>
+                <div class="food-item" onclick="selectGridOption('flower', 'Matahari', this)">🌻<span>Matahari</span></div>
+                <div class="food-item" onclick="selectGridOption('flower', 'Sakura', this)">🌸<span>Sakura</span></div>
+                <div class="food-item" onclick="selectGridOption('flower', 'Daisy', this)">🌼<span>Daisy</span></div>
+                <div class="food-item" onclick="selectGridOption('flower', 'Lily', this)">🪷<span>Lily</span></div>
+            </div>
+            <button class="premium-btn btn-yes" onclick="nextScreen('flower-screen', 'fingerprint-screen', () => validateGrid('flower', 'Pilih bunganya dulu cantikk!'))" style="width: 100%;">Cantik! ✨</button>
+        </div>
+    </section>
+
+    
+
+    <!-- NEW FEATURE 4: FINGERPRINT SCANNER -->
+    <section class="screen" id="fingerprint-screen">
+        <div class="glass-card" style="display:flex; flex-direction:column; align-items:center;">
+            <h2 class="form-title">Verifikasi Sidik Jari Cinta 🔒</h2>
+            <p class="romantic-text" style="font-size: 10pt; margin-bottom: 25px;">Tahan jarimu di ikon ini sampai penuh!</p>
+            
+            <div id="fingerprintBtn" class="fingerprint-btn" onpointerdown="startFingerprint(event)" onpointerup="stopFingerprint(event)" onpointerleave="stopFingerprint(event)">
+                <i class="fas fa-fingerprint" style="font-size: 50pt; color: var(--rose-gold);"></i>
+            </div>
+            
+            <div class="progress-bar-bg" style="margin-top: 25px; width: 90%;"><div class="progress-bar-fill" id="fingerprintProgress"></div></div>
+            <p id="fingerprintStatus" style="margin-top:15px; font-weight:bold; color:var(--rose-gold); font-size: 10pt;">Menunggu sentuhan...</p>
+        </div>
+    </section>
+
+    <!-- LOVE SLIDER -->
+    <section class="screen" id="slider-screen">
+        <div class="glass-card">
+            <h2 class="form-title">Satu pertanyaan lagi sebelum masuk ujian...</h2>
+            <p class="romantic-text" style="font-size: 14pt;">Seberapa sayang kamu sama aku? 🙈</p>
+            <div class="slider-container"><input type="range" min="0" max="1000" value="0" class="love-slider" id="loveSlider" oninput="updateSlider()"><div id="sliderValueText">0%</div></div>
+            <button class="premium-btn btn-yes" id="btnLanjutSlider" onclick="startQuiz(event)" style="width: 100%; opacity: 0.5; pointer-events: none; transition: 0.5s;">Tarik sampai penuh dulu! 😜</button>
+        </div>
+    </section>
+
+    <!-- QUIZ SCREEN (Feature 5 is the Auto Hue-shift which happens per question here) -->
     <section class="screen" id="quiz-screen">
         <div class="glass-card">
-            <div class="progress-wrapper">
-                <div class="progress-stats">
-                    <span>PERNYATAAN</span>
-                    <span id="quizIndexLabel">1 / 10</span>
-                </div>
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill" id="quizProgressBar"></div>
-                </div>
-            </div>
-
-            <div class="typing-container" style="min-height: 110px;">
-                <p class="romantic-text" id="questionText"></p>
-            </div>
-
+            <div class="progress-wrapper"><div class="progress-stats"><span>UJIAN CINTA</span><span id="quizIndexLabel">1 / 10</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" id="quizProgressBar"></div></div></div>
+            <div class="typing-container" style="min-height: 110px;"><p class="romantic-text" id="questionText"></p></div>
             <div class="btn-container">
                 <button class="premium-btn btn-yes" id="btnYes" onclick="handleAnswerYes(event)">💖 Iya</button>
-                <div class="no-btn-wrapper" id="noBtnContainer">
-                    <button class="premium-btn btn-no" id="btnNo" onmouseenter="escapeButton(event)" onclick="escapeButton(event)" ontouchstart="escapeButton(event)">🤍 Tidak</button>
-                </div>
+                <div class="no-btn-wrapper" id="noBtnContainer"><button class="premium-btn btn-no" id="btnNo" onmouseenter="escapeButton(event)" onclick="escapeButton(event)" ontouchstart="escapeButton(event)">🤍 Tidak</button></div>
                 <div class="cute-bubble" id="cuteBubble">Hehe 😝</div>
             </div>
         </div>
     </section>
 
-    <!-- 3. INTERACTIVE MINI GAME SCREEN -->
+    <!-- MINI GAME -->
     <section class="screen" id="game-screen">
         <div class="glass-card" style="max-width: 520px;">
-            <h2 class="romantic-text" style="font-size: 16pt; margin-bottom: 5px;">🎮 Mini Game</h2>
+            <h2 class="form-title" style="margin-bottom: 5px; font-size: 16pt;">🎮 Mini Game</h2>
             <p style="font-size: 9.5pt; color: var(--rose-gold); margin-bottom: 15px; font-weight: 500;">Tangkap Semua Love Bersama!</p>
-            
-            <div class="game-meta">
-                <div>Skor: <span id="gameScore" style="color: #ff9aa2;">0</span> / 25</div>
-                <div>Waktu: <span id="gameTimer" style="color: #ff9aa2;">0.0</span>s</div>
-            </div>
-
-            <div class="progress-bar-bg" style="margin-bottom: 15px;">
-                <div class="progress-bar-fill" id="gameProgressBar"></div>
-            </div>
-
+            <div class="progress-stats" style="justify-content: space-around; margin-bottom: 15px;"><div>Skor: <span id="gameScore">0</span> / 25</div><div>Waktu: <span id="gameTimer">0.0</span>s</div></div>
+            <div class="progress-bar-bg" style="margin-bottom: 15px;"><div class="progress-bar-fill" id="gameProgressBar"></div></div>
             <div class="game-canvas-area" id="gameArea"></div>
         </div>
     </section>
 
-    <!-- 4. FINAL CELEBRATION SCREEN -->
+    <!-- FINAL & RATING & NEW FEATURE 6: HOLD TO SUBMIT -->
     <section class="screen" id="final-screen">
         <div class="glass-card">
             <h1 class="accent-title">Selamanya Bersama</h1>
-            <div class="typing-container" style="min-height: 120px; margin-bottom: 20px;">
-                <p class="romantic-text" id="finalText" style="font-size: 14pt; font-weight: 500;"></p>
-            </div>
-            <h2 id="finalHeartLabel" style="font-size: 18pt; color: #ff9aa2; opacity: 0; transition: opacity 1s ease; margin-bottom: 30px;">❤️ Selamanya Bersama ❤️</h2>
+            <div class="typing-container" style="min-height: 90px; margin-bottom: 10px;"><p class="romantic-text" id="finalText" style="font-size: 12.5pt; font-weight: 500;"></p></div>
             
-            <div class="btn-container">
-                <button class="premium-btn btn-yes" id="btnTelegram" onclick="submitDataToTelegram(event)" style="padding: 15px 45px; font-size: 12pt;">Kirim Jawaban 📨</button>
+            <p style="font-size: 10pt; font-weight: 600; color: var(--rose-gold); margin-top: 15px;">Berapa nilai untuk aku & website ini? ⭐</p>
+            <div class="star-rating">
+                <input type="radio" id="star5" name="rating" value="5" onclick="setRating(5)"><label for="star5" class="fas fa-star"></label>
+                <input type="radio" id="star4" name="rating" value="4" onclick="setRating(4)"><label for="star4" class="fas fa-star"></label>
+                <input type="radio" id="star3" name="rating" value="3" onclick="setRating(3)"><label for="star3" class="fas fa-star"></label>
+                <input type="radio" id="star2" name="rating" value="2" onclick="setRating(2)"><label for="star2" class="fas fa-star"></label>
+                <input type="radio" id="star1" name="rating" value="1" onclick="setRating(1)"><label for="star1" class="fas fa-star"></label>
             </div>
+            
+            <button class="premium-btn btn-yes hold-btn" id="btnTelegram" style="padding: 15px 45px; font-size: 11pt; width: 100%; opacity: 0.5; pointer-events: none; margin-top: 10px;" onpointerdown="startSubmit(event)" onpointerup="stopSubmit(event)" onpointerleave="stopSubmit(event)">
+                <div class="hold-btn-fill" id="submitFill"></div>
+                <span id="submitBtnText" style="position:relative; z-index:2;">Tahan untuk Segel Janji 💌</span>
+            </button>
         </div>
     </section>
 
-    <div class="luxury-toast" id="luxuryToast">
-        <span>❤️</span> <span id="toastMessage">Jawaban berhasil dikirim!</span>
-    </div>
+    <div class="luxury-toast" id="luxuryToast"><span>❤️</span> <span id="toastMessage">Pesan</span></div>
 
-    <!-- ==========================================
-       JAVASCRIPT CONFIGURATION & LOGIC SYSTEM
-       ========================================== -->
     <script>
-        const BOT_TOKEN = "8194599694:AAGx9dRZMFER1n4hixHRIdR3e7x8V9hQ9dU";
-        const CHAT_ID = "7338916279";
+        const BOT_TOKEN = "8194599694:AAGx9dRZMFER1n4hixHRIdR3e7x8V9hQ9dU"; const CHAT_ID = "7338916279";
 
         const quizQuestions = [
-            "Masih mau menemani aku sampai nanti?",
-            "Kalau suatu hari aku gagal, kamu tetap ada?",
-            "Kalau kita sedang berbeda pendapat, mau saling memahami?",
-            "Apa kamu percaya hubungan ini layak diperjuangkan?",
-            "Kalau aku lagi capek, mau jadi tempat pulangku?",
-            "Mau membuat banyak kenangan bersamaku?",
-            "Kalau nanti kita sukses, masih mau tetap sederhana bersama?",
-            "Apa kamu yakin memilih aku?",
-            "Kalau suatu hari kita berjauhan, kamu tetap bertahan?",
-            "Boleh aku tetap menjadi alasan kamu tersenyum?"
+            "Masih mau menemani aku sampai nanti?", "Kalau suatu hari aku gagal, kamu tetap ada?", "Kalau kita sedang berbeda pendapat, mau saling memahami?",
+            "Apa kamu percaya hubungan ini layak diperjuangkan?", "Kalau aku lagi capek, mau jadi tempat pulangku?", "Mau membuat banyak kenangan bersamaku?",
+            "Kalau nanti kita sukses, masih mau tetap sederhana bersama?", "Apa kamu yakin memilih aku?", "Kalau suatu hari kita berjauhan, kamu tetap bertahan?", "Boleh aku tetap menjadi alasan kamu tersenyum?"
         ];
+        const escapeMessages = ["Hehe 😝", "Yakin?", "Coba pilih yang satunya.", "Aku nggak percaya.", "Pilihan satunya lebih bagus ❤️", "Gabisa diklik kan? 😜"];
 
-        const escapeMessages = [
-            "Hehe 😝",
-            "Yakin?",
-            "Coba pilih yang satunya.",
-            "Aku nggak percaya.",
-            "Pilihan satunya lebih bagus ❤️",
-            "Gabisa diklik kan? 😜",
-            "Iya aja deh sayang..."
-        ];
-
-        let currentQuestionIndex = 0;
-        let noButtonChasedCount = 0;
-        let yesButtonScale = 1;
+        let currentQuestionIndex = 0; let noButtonChasedCount = 0; let yesButtonScale = 1;
+        let score = 0; let gameActive = false; let gameStartTime = 0; let gameTimerInterval = null; let totalElapsedGameTime = 0;
+        let currentVisualState = 'darkness';
         
-        let score = 0;
-        let gameActive = false;
-        let gameStartTime = 0;
-        let gameTimerInterval = null;
-        let totalElapsedGameTime = 0;
+        let userData = { nama: '', mood: '', food: '', color: 'Pink (Default)', flower: '', date: '', lovePercent: '0%', rating: 0 }; 
+        let gridSelections = { mood: '', food: '', flower: '', date: '' };
+        
+        const canvas = document.getElementById('particleCanvas'); const ctx = canvas.getContext('2d'); let particlesArray = [];
+        let audioContext = null; let bgMusic = new Audio("https://ar-hosting.pages.dev/1784233315964.mp3"); bgMusic.loop = true; bgMusic.volume = 0.6;
 
-        let currentVisualState = 'darkness'; 
-        const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas.getContext('2d');
-        let particlesArray = [];
-        let mouseCoordinates = { x: null, y: null };
-
-        let audioContext = null;
-        let bgMusic = new Audio("https://ar-hosting.pages.dev/1784233315964.mp3");
-        bgMusic.loop = true;
-        bgMusic.volume = 0.6;
-
-        function playMusicOnLoad() {
-            if (bgMusic.paused) {
-                let playPromise = bgMusic.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        console.log("Browser memblokir autoplay, menunggu sentuhan dari user.");
-                    });
-                }
-            }
-        }
+        function playMusicOnLoad() { if (bgMusic.paused) { let p = bgMusic.play(); if (p !== undefined) p.catch(e => console.log("Waiting for user interaction.")); } }
 
         window.addEventListener('DOMContentLoaded', () => {
-            // Coba putar langsung saat web dibuka
-            playMusicOnLoad();
-            
-            // Trik rahasia: Kalau diblokir, putar saat user menyentuh layar di bagian mana pun
-            document.body.addEventListener('click', playMusicOnLoad, { once: true });
-            document.body.addEventListener('touchstart', playMusicOnLoad, { once: true });
-            adjustCanvasResolution();
-            window.addEventListener('resize', adjustCanvasResolution);
-            
-            // Efek Cursor Trail premium & interaktif
-            window.addEventListener('mousemove', (e) => {
-                mouseCoordinates.x = e.clientX;
-                mouseCoordinates.y = e.clientY;
-                createMouseTrailEffect(e.clientX, e.clientY);
-                if (Math.random() < 0.15 && currentVisualState !== 'darkness') {
-                    generateSparkleParticle(e.clientX, e.clientY);
-                }
-            });
-
-            window.addEventListener('touchmove', (e) => {
-                if(e.touches.length > 0 && currentVisualState !== 'darkness') {
-                    mouseCoordinates.x = e.touches[0].clientX;
-                    mouseCoordinates.y = e.touches[0].clientY;
-                    createMouseTrailEffect(e.touches[0].clientX, e.touches[0].clientY);
-                    generateSparkleParticle(e.touches[0].clientX, e.touches[0].clientY);
-                }
-            });
-
-            requestAnimationFrame(renderParticleLoopEngine);
-            triggerPremiumOpeningSequence();
+            playMusicOnLoad(); document.body.addEventListener('click', playMusicOnLoad, { once: true }); document.body.addEventListener('touchstart', playMusicOnLoad, { once: true });
+            adjustCanvasResolution(); window.addEventListener('resize', adjustCanvasResolution);
+            window.addEventListener('mousemove', (e) => { if (Math.random() < 0.15 && currentVisualState !== 'darkness') generateSparkleParticle(e.clientX, e.clientY); });
+            window.addEventListener('touchmove', (e) => { if(e.touches.length > 0 && currentVisualState !== 'darkness') generateSparkleParticle(e.touches[0].clientX, e.touches[0].clientY); });
+            requestAnimationFrame(renderParticleLoopEngine); triggerPremiumOpeningSequence();
         });
 
-        function adjustCanvasResolution() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+        function adjustCanvasResolution() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
 
-        function createMouseTrailEffect(x, y) {
-            const trail = document.createElement('div');
-            trail.className = 'mouse-trail';
-            trail.style.left = `${x}px`;
-            trail.style.top = `${y}px`;
-            document.body.appendChild(trail);
-            setTimeout(() => trail.remove(), 600);
-        }
-
-        /* ------------------------------------------
-           SOUND GENERATOR ENGINE (Web Audio API)
-           ------------------------------------------ */
-        function tryInitAudio() {
-            if (!audioContext) {
-                window.AudioContext = window.AudioContext || window.webkitAudioContext;
-                audioContext = new AudioContext();
-            }
-        }
-
-        // Bunyi Pop/Click Premium Romantis saat Tombol Ditekan (Kecuali BGM)
+        function tryInitAudio() { if (!audioContext) { window.AudioContext = window.AudioContext || window.webkitAudioContext; audioContext = new AudioContext(); } }
         function playPremiumClickSound(type = 'success') {
-            tryInitAudio();
-            if (!audioContext) return;
-            
-            const now = audioContext.currentTime;
-            const osc = audioContext.createOscillator();
-            const gain = audioContext.createGain();
-            
-            osc.type = 'sine';
-            if (type === 'success') {
-                // Suara dentingan lembut naik ceria
-                osc.frequency.setValueAtTime(440, now); // A4
-                osc.frequency.exponentialRampToValueAtTime(880, now + 0.1); // A5
-                gain.gain.setValueAtTime(0.04, now);
-                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2);
-            } else if (type === 'fail') {
-                // Suara cemberut lucu untuk tombol tidak
-                osc.frequency.setValueAtTime(330, now); // E4
-                osc.frequency.linearRampToValueAtTime(220, now + 0.15); // A3
-                gain.gain.setValueAtTime(0.03, now);
-                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2);
-            }
-            
-            osc.connect(gain);
-            gain.connect(audioContext.destination);
-            osc.start(now);
-            osc.stop(now + 0.25);
+            tryInitAudio(); if (!audioContext) return; const now = audioContext.currentTime; const osc = audioContext.createOscillator(); const gain = audioContext.createGain(); osc.type = 'sine';
+            if (type === 'success') { osc.frequency.setValueAtTime(440, now); osc.frequency.exponentialRampToValueAtTime(880, now + 0.1); gain.gain.setValueAtTime(0.04, now); gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2); } 
+            else if (type === 'fail') { osc.frequency.setValueAtTime(330, now); osc.frequency.linearRampToValueAtTime(220, now + 0.15); gain.gain.setValueAtTime(0.03, now); gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2); }
+            osc.connect(gain); gain.connect(audioContext.destination); osc.start(now); osc.stop(now + 0.25);
         }
 
-        /* ------------------------------------------
-           PREMIUM OPENING TIMELINE CONTROLLER
-           ------------------------------------------ */
         function triggerPremiumOpeningSequence() {
-            const centerLight = document.getElementById('centerLight');
-            const globalBg = document.getElementById('globalBg');
-            const introCard = document.getElementById('introCard');
-
-            // 1. Cahaya muncul perlahan dari tengah
+            const centerLight = document.getElementById('centerLight'); const globalBg = document.getElementById('globalBg'); const introCard = document.getElementById('introCard');
+            setTimeout(() => { centerLight.style.opacity = '1'; centerLight.style.boxShadow = '0 0 150px 50px white, 0 0 250px 100px #ffb7b2'; }, 1000);
             setTimeout(() => {
-                centerLight.style.opacity = '1';
-                centerLight.style.boxShadow = '0 0 150px 50px white, 0 0 250px 100px #ffb7b2';
-            }, 1000);
-
-            // 2. Ledakan Bunga & Transisi Background
-            setTimeout(() => {
-                currentVisualState = 'opening';
-                document.body.style.backgroundColor = 'transparent';
-                globalBg.style.opacity = '1';
-                globalBg.style.animation = 'gradientBG 15s ease infinite';
-                centerLight.style.opacity = '0';
-                
-                const centerX = window.innerWidth / 2;
-                const centerY = window.innerHeight / 2;
-                generateVolumetricParticleBurst(300, centerX, centerY, true); 
-                
-                for(let i=0; i<60; i++){
-                    particlesArray.push(new RomanticParticleVector());
-                }
+                currentVisualState = 'opening'; document.body.style.backgroundColor = 'transparent'; globalBg.style.opacity = '1'; globalBg.style.animation = 'gradientBG 15s ease infinite'; centerLight.style.opacity = '0';
+                generateVolumetricParticleBurst(300, window.innerWidth / 2, window.innerHeight / 2, true); for(let i=0; i<60; i++) particlesArray.push(new RomanticParticleVector());
             }, 3000);
-
-            // 3. Animasi Teks Mengetik
             setTimeout(() => {
                 introCard.style.display = 'block';
                 setTimeout(() => {
-                    introCard.style.opacity = '1';
-                    introCard.style.transform = 'translateY(0)';
+                    introCard.style.opacity = '1'; introCard.style.transform = 'translateY(0)';
                     runPremiumTypingEffect("Untuk seseorang yang selalu berhasil membuat hariku terasa lebih indah.", 'introText', () => {
-                        setTimeout(() => {
-                            fadeOutElement('introText', () => {
-                                runPremiumTypingEffect("Aku menyiapkan sesuatu yang spesial untukmu.", 'introText', () => {
-                                    document.getElementById('introBtnContainer').style.opacity = '1';
-                                });
-                            });
-                        }, 2000);
+                        setTimeout(() => { fadeOutElement('introText', () => { runPremiumTypingEffect("Aku menyiapkan sesuatu yang spesial untukmu.", 'introText', () => { document.getElementById('introBtnContainer').style.opacity = '1'; }); }); }, 2000);
                     });
                 }, 100);
             }, 6500);
         }
 
         function runPremiumTypingEffect(text, elementId, completeCallback) {
-            const targetElement = document.getElementById(elementId);
-            targetElement.innerHTML = '';
-            let letterIndex = 0;
-            
-            function printLetter() {
-                if (letterIndex < text.length) {
-                    targetElement.innerHTML += text.charAt(letterIndex);
-                    letterIndex++;
-                    setTimeout(printLetter, 45 + Math.random() * 25);
-                } else if (completeCallback) {
-                    completeCallback();
-                }
-            }
+            const targetElement = document.getElementById(elementId); targetElement.innerHTML = ''; let letterIndex = 0;
+            function printLetter() { if (letterIndex < text.length) { targetElement.innerHTML += text.charAt(letterIndex); letterIndex++; setTimeout(printLetter, 35 + Math.random() * 20); } else if (completeCallback) completeCallback(); }
             printLetter();
         }
-
         function fadeOutElement(elementId, callback) {
-            const el = document.getElementById(elementId);
-            el.style.opacity = '0';
-            el.style.transition = 'opacity 0.6s ease';
-            setTimeout(() => {
-                el.innerHTML = '';
-                el.style.opacity = '1';
-                if(callback) callback();
-            }, 600);
+            const el = document.getElementById(elementId); el.style.opacity = '0'; el.style.transition = 'opacity 0.6s ease';
+            setTimeout(() => { el.innerHTML = ''; el.style.opacity = '1'; if(callback) callback(); }, 600);
+        }
+        function navigateToScreen(targetScreenId) { document.querySelectorAll('.screen').forEach(scr => scr.classList.remove('active')); setTimeout(() => { document.getElementById(targetScreenId).classList.add('active'); }, 400); }
+        function showLuxuryToastNotice(msg) { const toastNode = document.getElementById('luxuryToast'); document.getElementById('toastMessage').innerText = msg; toastNode.classList.add('show'); setTimeout(() => { toastNode.classList.remove('show'); }, 4000); }
+
+        /* --- SCREEN FLOW LOGIC --- */
+        function startExperience(event) { injectPremiumRipple(event); playMusicOnLoad(); playPremiumClickSound('success'); currentVisualState = 'standard'; navigateToScreen('name-screen'); }
+        
+        function nextScreen(currentId, nextId, validationFunc) {
+            if(event) injectPremiumRipple(event);
+            if(validationFunc && !validationFunc()) { playPremiumClickSound('fail'); return; }
+            playPremiumClickSound('success'); navigateToScreen(nextId);
         }
 
-        function navigateToScreen(targetScreenId) {
-            document.querySelectorAll('.screen').forEach(scr => scr.classList.remove('active'));
-            setTimeout(() => {
-                const targetNode = document.getElementById(targetScreenId);
-                targetNode.classList.add('active');
-            }, 400);
-        }
-
-        function startExperience(event) {
-            injectPremiumRipple(event);
-            
-            playMusicOnLoad(); // Pastikan lagu bermain
-
+        function validateName() { userData.nama = document.getElementById('inputNama').value.trim(); if(!userData.nama){ showLuxuryToastNotice("Isi namanya dulu dong sayang... 🥺"); return false;} return true; }
+        
+        function selectGridOption(category, value, element) {
+            document.querySelectorAll(`#${category}Grid .food-item`).forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected'); gridSelections[category] = value;
+            if(category === 'food') document.getElementById('inputMakananCustom').value = '';
             playPremiumClickSound('success');
-            currentVisualState = 'standard';
-            navigateToScreen('quiz-screen');
-            renderQuestionEntry();
+        }
+        function clearGrid(category) { document.querySelectorAll(`#${category}Grid .food-item`).forEach(el => el.classList.remove('selected')); gridSelections[category] = ''; }
+        
+        function validateGrid(category, errMsg) { userData[category] = gridSelections[category]; if(!userData[category]){ showLuxuryToastNotice(errMsg); return false; } return true; }
+        
+        function validateFood() {
+            let customFood = document.getElementById('inputMakananCustom').value.trim();
+            userData.food = customFood || gridSelections.food;
+            if(!userData.food){ showLuxuryToastNotice("Pilih atau ketik makanannya dulu ya! 😋"); return false; } return true;
         }
 
+        function selectTheme(name, soft, dark, hue, element) {
+            document.querySelectorAll('.color-item').forEach(el => el.classList.remove('selected')); element.classList.add('selected');
+            userData.color = name;
+            document.documentElement.style.setProperty('--pink-soft', soft); document.documentElement.style.setProperty('--rose-gold', dark); document.documentElement.style.setProperty('--bg-hue', hue + 'deg');
+            playPremiumClickSound('success');
+        }
+
+        /* FINGERPRINT SCAN LOGIC */
+        let scanInterval, scanProgress = 0;
+        function startFingerprint(e) {
+            if(e) e.preventDefault();
+            const btn = document.getElementById('fingerprintBtn'); btn.classList.add('scanning');
+            document.getElementById('fingerprintStatus').innerText = "Memindai Kecocokan...";
+            scanInterval = setInterval(() => {
+                scanProgress += 2; document.getElementById('fingerprintProgress').style.width = scanProgress + '%';
+                if(scanProgress >= 100) {
+                    clearInterval(scanInterval); btn.classList.remove('scanning');
+                    document.getElementById('fingerprintStatus').innerText = "Kecocokan 1000%!! 💖";
+                    playPremiumClickSound('success'); setTimeout(() => { nextScreen('fingerprint-screen', 'slider-screen', null); }, 1000);
+                }
+            }, 50);
+        }
+        function stopFingerprint(e) {
+            if(e) e.preventDefault(); clearInterval(scanInterval); document.getElementById('fingerprintBtn').classList.remove('scanning');
+            if(scanProgress < 100) { scanProgress = 0; document.getElementById('fingerprintProgress').style.width = '0%'; document.getElementById('fingerprintStatus').innerText = "Gagal! Tahan jarimu jangan dilepas 🥺"; playPremiumClickSound('fail'); }
+        }
+
+        /* SLIDER LOGIC */
+        function updateSlider() {
+            let val = document.getElementById('loveSlider').value; let text = document.getElementById('sliderValueText'); let btn = document.getElementById('btnLanjutSlider');
+            if(val == 1000) { text.innerText = "INFINITY! ∞ ❤️"; text.style.transform = "scale(1.2)"; btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; btn.innerText = "Lanjut 💖"; if(userData.lovePercent !== "INFINITY!") playPremiumClickSound('success'); userData.lovePercent = "INFINITY!"; } 
+            else { text.innerText = Math.floor(val/10) + "%"; text.style.transform = "scale(1)"; btn.style.opacity = '0.5'; btn.style.pointerEvents = 'none'; btn.innerText = "Tarik sampai penuh dong! 😜"; userData.lovePercent = Math.floor(val/10) + "%"; }
+        }
+
+        function startQuiz(event) { injectPremiumRipple(event); playPremiumClickSound('success'); navigateToScreen('quiz-screen'); renderQuestionEntry(); }
+
+        /* QUIZ */
         function renderQuestionEntry() {
-            const currentQuestion = quizQuestions[currentQuestionIndex];
-            const totalQuestionsCount = quizQuestions.length;
-            const progressPercentage = ((currentQuestionIndex + 1) / totalQuestionsCount) * 100;
-            document.getElementById('quizProgressBar').style.width = `${progressPercentage}%`;
-            document.getElementById('quizIndexLabel').innerText = `${currentQuestionIndex + 1} / ${totalQuestionsCount}`;
+            const currentQuestion = quizQuestions[currentQuestionIndex]; const totalQuestionsCount = quizQuestions.length;
+            document.getElementById('quizProgressBar').style.width = `${((currentQuestionIndex + 1) / totalQuestionsCount) * 100}%`; document.getElementById('quizIndexLabel').innerText = `${currentQuestionIndex + 1} / ${totalQuestionsCount}`;
+            // Auto hue-shift Feature
+            let currentHue = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--bg-hue')) || 0; document.documentElement.style.setProperty('--bg-hue', (currentHue + 15) + 'deg');
             runPremiumTypingEffect(currentQuestion, 'questionText');
         }
 
         function handleAnswerYes(event) {
-            injectPremiumRipple(event);
-            playPremiumClickSound('success');
-            
-            // Ledakan partikel kecil setiap klik "Iya" biar seru
-            generateVolumetricParticleBurst(25, event.clientX, event.clientY, true);
-
-            const noBtnWrapper = document.getElementById('noBtnContainer');
-            noBtnWrapper.style.transform = 'translate(0px, 0px) scale(1) rotate(0deg)';
-            noBtnWrapper.style.opacity = '1';
-            
-            yesButtonScale = 1;
-            document.getElementById('btnYes').style.transform = `scale(${yesButtonScale})`;
-            noButtonChasedCount = 0;
-
-            if (currentQuestionIndex < quizQuestions.length - 1) {
-                currentQuestionIndex++;
-                renderQuestionEntry();
-            } else {
-                navigateToScreen('game-screen');
-                initializeMiniGameEngine();
-            }
+            injectPremiumRipple(event); playPremiumClickSound('success'); generateVolumetricParticleBurst(25, event.clientX, event.clientY, true);
+            document.getElementById('noBtnContainer').style.transform = 'translate(0px, 0px) scale(1) rotate(0deg)'; document.getElementById('noBtnContainer').style.opacity = '1';
+            yesButtonScale = 1; document.getElementById('btnYes').style.transform = `scale(1)`; noButtonChasedCount = 0;
+            if (currentQuestionIndex < quizQuestions.length - 1) { currentQuestionIndex++; renderQuestionEntry(); } 
+            else { navigateToScreen('game-screen'); initializeMiniGameEngine(); }
         }
 
         function escapeButton(event) {
-            if (event) event.preventDefault();
-            noButtonChasedCount++;
-            
-            // Bunyi suara lucu/gagal tipis ketika tombol Tidak dikejar
-            playPremiumClickSound('fail');
-
-            const noBtnWrapper = document.getElementById('noBtnContainer');
-            const btnYes = document.getElementById('btnYes');
-            const bubble = document.getElementById('cuteBubble');
-
-            const paddingBoundary = 80;
-            const minX = paddingBoundary - window.innerWidth / 3;
-            const maxX = window.innerWidth / 3 - paddingBoundary;
-            const minY = paddingBoundary - window.innerHeight / 3;
-            const maxY = window.innerHeight / 3 - paddingBoundary;
-
-            const randomTranslationX = Math.random() * (maxX - minX) + minX;
-            const randomTranslationY = Math.random() * (maxY - minY) + minY;
-            
-            const escapeSpeedScaleMultiplier = Math.min(1 + (noButtonChasedCount * 0.15), 3);
-            const dynamicRotationDegree = (Math.random() - 0.5) * 70 * escapeSpeedScaleMultiplier;
-            const structuralScaleMetric = Math.random() > 0.5 ? (0.65 + Math.random() * 0.6) : (0.75 + Math.random() * 0.45);
-            const dynamicOpacityVal = Math.max(0.35, 1 - (Math.random() * 0.4));
-
-            noBtnWrapper.style.transform = `translate(${randomTranslationX}px, ${randomTranslationY}px) scale(${structuralScaleMetric}) rotate(${dynamicRotationDegree}deg)`;
-            noBtnWrapper.style.opacity = dynamicOpacityVal;
-
-            yesButtonScale += 0.12;
-            btnYes.style.transform = `scale(${yesButtonScale})`;
-            btnYes.style.boxShadow = `0 12px 35px rgba(255, 154, 162, ${0.35 + (yesButtonScale*0.05)})`;
-
-            const randomizedMessageIndex = Math.floor(Math.random() * escapeMessages.length);
-            bubble.innerText = escapeMessages[randomizedMessageIndex];
-            bubble.classList.add('active');
-            
-            bubble.style.transform = `translate(${randomTranslationX}px, ${randomTranslationY - 15}px) scale(1)`;
+            if (event) event.preventDefault(); noButtonChasedCount++; playPremiumClickSound('fail');
+            const noBtnWrapper = document.getElementById('noBtnContainer'); const btnYes = document.getElementById('btnYes'); const bubble = document.getElementById('cuteBubble');
+            const padding = 80; const maxX = window.innerWidth/3 - padding; const maxY = window.innerHeight/3 - padding;
+            const rX = Math.random() * (maxX - (-maxX)) + (-maxX); const rY = Math.random() * (maxY - (-maxY)) + (-maxY);
+            noBtnWrapper.style.transform = `translate(${rX}px, ${rY}px) scale(${0.75}) rotate(${(Math.random()-0.5)*100}deg)`;
+            yesButtonScale += 0.12; btnYes.style.transform = `scale(${yesButtonScale})`;
+            bubble.innerText = escapeMessages[Math.floor(Math.random() * escapeMessages.length)]; bubble.classList.add('active'); bubble.style.transform = `translate(${rX}px, ${rY - 15}px) scale(1)`;
             setTimeout(() => { bubble.classList.remove('active'); }, 1400);
         }
 
+        /* MINI GAME */
         function initializeMiniGameEngine() {
-            score = 0;
-            totalElapsedGameTime = 0.0;
-            gameActive = true;
-            gameStartTime = performance.now();
-
-            document.getElementById('gameScore').innerText = score;
-            document.getElementById('gameTimer').innerText = '0.0';
-            document.getElementById('gameProgressBar').style.width = '0%';
-
-            gameTimerInterval = setInterval(() => {
-                if(!gameActive) return;
-                const runtimeDelta = performance.now() - gameStartTime;
-                totalElapsedGameTime = (runtimeDelta / 1000).toFixed(1);
-                document.getElementById('gameTimer').innerText = totalElapsedGameTime;
-            }, 100);
-
+            score = 0; totalElapsedGameTime = 0.0; gameActive = true; gameStartTime = performance.now();
+            document.getElementById('gameScore').innerText = score; document.getElementById('gameTimer').innerText = '0.0'; document.getElementById('gameProgressBar').style.width = '0%';
+            gameTimerInterval = setInterval(() => { if(!gameActive) return; totalElapsedGameTime = ((performance.now() - gameStartTime) / 1000).toFixed(1); document.getElementById('gameTimer').innerText = totalElapsedGameTime; }, 100);
             spawnTargetGameHearts();
         }
 
         function spawnTargetGameHearts() {
-            const gameArea = document.getElementById('gameArea');
-            gameArea.innerHTML = '';
+            const gameArea = document.getElementById('gameArea'); gameArea.innerHTML = '';
             for(let i = 0; i < 25; i++) {
-                const targetHeartElement = document.createElement('div');
-                targetHeartElement.className = 'game-heart';
-                targetHeartElement.innerHTML = '❤️';
-                
-                targetHeartElement.style.left = `${Math.random() * 86 + 7}%`;
-                targetHeartElement.style.top = `${Math.random() * 75 + 10}%`;
-                targetHeartElement.style.transform = `scale(${0.6 + Math.random() * 0.7})`;
-                targetHeartElement.style.animationDelay = `${Math.random() * 2}s`;
-                targetHeartElement.style.animationDuration = `${0.6 + Math.random() * 0.6}s`;
-
-                targetHeartElement.addEventListener('click', (e) => triggerTargetCatchSuccess(e, targetHeartElement));
-                targetHeartElement.addEventListener('touchstart', (e) => triggerTargetCatchSuccess(e, targetHeartElement));
-                gameArea.appendChild(targetHeartElement);
+                const h = document.createElement('div'); h.className = 'game-heart'; h.innerHTML = '❤️'; h.style.left = `${Math.random() * 86 + 7}%`; h.style.top = `${Math.random() * 75 + 10}%`; h.style.transform = `scale(${0.6 + Math.random() * 0.7})`; h.style.animationDelay = `${Math.random() * 2}s`; h.style.animationDuration = `${0.6 + Math.random() * 0.6}s`;
+                h.addEventListener('click', (e) => triggerTargetCatchSuccess(e, h)); h.addEventListener('touchstart', (e) => triggerTargetCatchSuccess(e, h)); gameArea.appendChild(h);
             }
         }
 
-        function triggerTargetCatchSuccess(event, heartElementReference) {
-            if(event) { event.preventDefault(); event.stopPropagation(); }
-            if(heartElementReference.classList.contains('caught')) return;
-            
-            heartElementReference.classList.add('caught');
-            score++;
-            document.getElementById('gameScore').innerText = score;
-            document.getElementById('gameProgressBar').style.width = `${(score / 25) * 100}%`;
-
-            // Nada Pop game yang sudah disesuaikan
-            playTargetCatchAudioBeepTone();
-
-            heartElementReference.style.transform = 'scale(2.5)';
-            heartElementReference.style.opacity = '0';
-            heartElementReference.style.transition = 'all 0.4s ease-out';
-            
-            const boundingBox = heartElementReference.getBoundingClientRect();
-            generateVolumetricParticleBurst(12, boundingBox.left + boundingBox.width/2, boundingBox.top + boundingBox.height/2, true);
-
-            setTimeout(() => { heartElementReference.remove(); }, 400);
-
-            if (score >= 25) executeMiniGameVictorySequence();
-        }
-
-        function playTargetCatchAudioBeepTone() {
-            if (!audioContext) return;
-            try {
-                const now = audioContext.currentTime;
-                const osc = audioContext.createOscillator();
-                const gain = audioContext.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(523.25, now); 
-                osc.frequency.exponentialRampToValueAtTime(880.00, now + 0.12); 
-                gain.gain.setValueAtTime(0.03, now);
-                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
-                osc.connect(gain);
-                gain.connect(audioContext.destination);
-                osc.start(now);
-                osc.stop(now + 0.16);
-            } catch(e) {}
+        function triggerTargetCatchSuccess(event, h) {
+            if(event) { event.preventDefault(); event.stopPropagation(); } if(h.classList.contains('caught')) return; h.classList.add('caught'); score++;
+            document.getElementById('gameScore').innerText = score; document.getElementById('gameProgressBar').style.width = `${(score / 25) * 100}%`;
+            if (audioContext) { const now = audioContext.currentTime; const osc = audioContext.createOscillator(); const gain = audioContext.createGain(); osc.type = 'sine'; osc.frequency.setValueAtTime(523.25, now); osc.frequency.exponentialRampToValueAtTime(880.00, now + 0.12); gain.gain.setValueAtTime(0.03, now); gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15); osc.connect(gain); gain.connect(audioContext.destination); osc.start(now); osc.stop(now + 0.16); }
+            h.style.transform = 'scale(2.5)'; h.style.opacity = '0'; h.style.transition = 'all 0.4s ease-out';
+            generateVolumetricParticleBurst(8, event.clientX || h.getBoundingClientRect().left, event.clientY || h.getBoundingClientRect().top, true);
+            setTimeout(() => { h.remove(); }, 400); if (score >= 25) executeMiniGameVictorySequence();
         }
 
         function executeMiniGameVictorySequence() {
-            gameActive = false;
-            clearInterval(gameTimerInterval);
-            currentVisualState = 'celebration';
-            document.getElementById('globalBg').classList.add('bg-bright');
-            
+            gameActive = false; clearInterval(gameTimerInterval); currentVisualState = 'celebration'; document.getElementById('globalBg').classList.add('bg-bright');
             generateVolumetricParticleBurst(250, window.innerWidth/2, window.innerHeight/2, true);
-
-            setTimeout(() => {
-                navigateToScreen('final-screen');
-                runPremiumTypingEffect("Terima kasih sudah meluangkan waktu menyelesaikan semuanya. Aku berharap kita bisa terus membuat cerita yang indah bersama.", 'finalText', () => {
-                    setTimeout(() => { document.getElementById('finalHeartLabel').style.opacity = '1'; }, 500);
-                });
-            }, 800);
+            setTimeout(() => { navigateToScreen('final-screen'); runPremiumTypingEffect("Terima kasih sudah meluangkan waktu menyelesaikan semuanya. Aku berharap kita bisa terus membuat cerita yang indah bersama.", 'finalText'); }, 800);
         }
 
-        function submitDataToTelegram(event) {
-            injectPremiumRipple(event);
-            playPremiumClickSound('success');
-            const date = new Date();
-            const payload = `━━━━━━━━━━━━━━
+        /* RATING & HOLD TO SUBMIT */
+        function setRating(val) {
+            userData.rating = val; let btn = document.getElementById('btnTelegram');
+            btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; playPremiumClickSound('success');
+            document.getElementById('submitBtnText').innerText = "Tahan untuk Segel Janji & Kirim 💌";
+        }
 
-💌 Ada Jawaban Baru
+        let submitInterval, submitProgress = 0;
+        function startSubmit(e) {
+            if(e) e.preventDefault(); if(userData.rating === 0) return;
+            submitInterval = setInterval(() => {
+                submitProgress += 3; document.getElementById('submitFill').style.width = submitProgress + '%';
+                if(submitProgress >= 100) { clearInterval(submitInterval); executeSubmitTelegram(); }
+            }, 50);
+        }
+        function stopSubmit(e) {
+            if(e) e.preventDefault(); clearInterval(submitInterval);
+            if(submitProgress < 100) { submitProgress = 0; document.getElementById('submitFill').style.width = '0%'; }
+        }
 
-Semua pertanyaan:
-✅ Iya
+        function executeSubmitTelegram() {
+            document.getElementById('submitBtnText').innerText = "Mengirim... ✨"; playPremiumClickSound('success'); const date = new Date(); let starText = "⭐".repeat(userData.rating);
+            const payload = `💌 *BUKU TAMU HATI MASUK* 💌
+━━━━━━━━━━━━━━━━━━━━
 
-Mini Game:
-Selesai
+👤 *Profil Kesayangan:*
+• *Nama:* ${userData.nama}
+• *Mood Hari Ini:* ${userData.mood}
+• *Makanan:* ${userData.food}
+• *Bunga Pilihan:* ${userData.flower}
+• *Kencan Impian:* ${userData.date}
+• *Warna Tema:* ${userData.color}
+• *Kadar Sayang:* ${userData.lovePercent}
 
-Skor:
-${score}
+💖 *Ujian Cinta:*
+Sidik Jari: ✅ Cocok 1000%
+Semua Pertanyaan: ✅ *IYA MAU!*
 
-Waktu:
-${totalElapsedGameTime} detik
+🎮 *Mini Game:*
+• *Skor:* ${score} / 25
+• *Waktu:* ${totalElapsedGameTime} detik
 
+🌟 *Rating Web:* ${starText} (${userData.rating}/5)
+
+🕰 *Detail:*
 Tanggal: ${date.toLocaleDateString('id-ID')}
 Jam: ${date.toLocaleTimeString('id-ID')}
-Browser: ${navigator.userAgent.includes("Mobile") ? "Mobile Browser" : "Desktop Browser"}
-Resolusi: ${window.screen.width}x${window.screen.height}
+Browser: ${navigator.userAgent.includes("Mobile") ? "Mobile" : "Desktop"}
 
-━━━━━━━━━━━━━━`;
-
-            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CHAT_ID, text: payload, parse_mode: 'Markdown' })
-            }).then(() => showLuxuryToastNotice("Jawaban berhasil dikirim ❤️"))
-              .catch(() => showLuxuryToastNotice("Jawaban berhasil dikirim ❤️"));
+━━━━━━━━━━━━━━━━━━━━
+"Misi Romantis Berhasil Dijalankan!" ✨`;
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: CHAT_ID, text: payload, parse_mode: 'Markdown' })
+            }).then(() => { showLuxuryToastNotice("Yeyy! Janji Tersegel & Terkirim ❤️"); document.getElementById('submitBtnText').innerText = "Terkirim! ❤️"; document.getElementById('btnTelegram').style.pointerEvents = 'none';
+            }).catch(() => { showLuxuryToastNotice("Yeyy! Janji Tersegel & Terkirim ❤️"); document.getElementById('submitBtnText').innerText = "Terkirim! ❤️"; document.getElementById('btnTelegram').style.pointerEvents = 'none';});
         }
 
-        function showLuxuryToastNotice(msg) {
-            const toastNode = document.getElementById('luxuryToast');
-            document.getElementById('toastMessage').innerText = msg;
-            toastNode.classList.add('show');
-            setTimeout(() => { toastNode.classList.remove('show'); }, 4000);
-        }
-
-        /* ------------------------------------------
-           FIXED HIGH FIDELITY PARTICLES ENGINE
-           ------------------------------------------ */
+        /* --- PARTICLES (Updated to support chosen flower!) --- */
         class RomanticParticleVector {
             constructor(spawnX, spawnY, structuralType, isExplosion = false) {
-                this.x = spawnX !== undefined ? spawnX : Math.random() * canvas.width;
-                this.y = spawnY !== undefined ? spawnY : -20;
+                this.x = spawnX !== undefined ? spawnX : Math.random() * canvas.width; this.y = spawnY !== undefined ? spawnY : -20;
                 this.type = structuralType || this.determineType();
-                
                 this.size = (this.type === 'sparkle') ? 3 + Math.random() * 5 : 8 + Math.random() * 16;
-                
-                if (isExplosion) {
-                    const angle = Math.random() * Math.PI * 2;
-                    const velocity = 2 + Math.random() * 12; 
-                    this.speedX = Math.cos(angle) * velocity;
-                    this.speedY = Math.sin(angle) * velocity;
-                } else {
-                    this.speedX = (Math.random() - 0.5) * 1.5;
-                    this.speedY = 1.5 + Math.random() * 2.5;
-                }
-                
-                this.rotationAngle = Math.random() * Math.PI * 2;
-                this.rotationVelocity = (Math.random() - 0.5) * 0.05;
-                
-                this.oscillationFreq = 0.01 + Math.random() * 0.02;
-                this.oscillationAmp = 0.5 + Math.random() * 1.5;
-                this.timeTracker = Math.random() * 100;
-                
-                this.alpha = 0.8 + Math.random() * 0.2;
-                this.fadeVel = 0.002 + Math.random() * 0.004;
-                this.isExplosion = isExplosion;
+                if (isExplosion) { const a = Math.random() * Math.PI * 2; const v = 2 + Math.random() * 12; this.speedX = Math.cos(a) * v; this.speedY = Math.sin(a) * v; } 
+                else { this.speedX = (Math.random() - 0.5) * 1.5; this.speedY = 1.5 + Math.random() * 2.5; }
+                this.rotationAngle = Math.random() * Math.PI * 2; this.rotationVelocity = (Math.random() - 0.5) * 0.05;
+                this.oscillationFreq = 0.01 + Math.random() * 0.02; this.oscillationAmp = 0.5 + Math.random() * 1.5; this.timeTracker = Math.random() * 100;
+                this.alpha = 0.8 + Math.random() * 0.2; this.fadeVel = 0.002 + Math.random() * 0.004; this.isExplosion = isExplosion;
             }
-
-            determineType() {
-                const p = Math.random();
-                if(currentVisualState === 'celebration') {
-                    return p < 0.4 ? 'confetti' : (p < 0.7 ? 'rose' : 'heart');
+            determineType() { 
+                const p = Math.random(); 
+                if(currentVisualState === 'celebration') return p < 0.4 ? 'confetti' : (p < 0.7 ? 'rose' : 'heart'); 
+                // Feature Override: If user picked a flower, spawn more of it!
+                if(userData.flower) {
+                    if (p < 0.4) {
+                        if(userData.flower === 'Mawar') return 'rose';
+                        if(userData.flower === 'Sakura') return 'sakura';
+                        if(userData.flower === 'Matahari') return 'sunflower';
+                        if(userData.flower === 'Tulip') return 'tulip';
+                        if(userData.flower === 'Daisy') return 'daisy';
+                        if(userData.flower === 'Lily') return 'lily';
+                    }
                 }
-                return p < 0.45 ? 'sakura' : (p < 0.75 ? 'sparkle' : (p < 0.9 ? 'rose' : 'heart'));
+                return p < 0.45 ? 'sakura' : (p < 0.75 ? 'sparkle' : (p < 0.9 ? 'rose' : 'heart')); 
             }
-
             update() {
                 this.timeTracker += this.oscillationFreq;
-                
-                if(this.isExplosion) {
-                    this.speedY += 0.15; 
-                    this.speedX *= 0.98; 
-                } else {
-                    this.x += Math.sin(this.timeTracker) * this.oscillationAmp;
-                }
-
-                this.x += this.speedX;
-                this.y += this.speedY;
-                this.rotationAngle += this.rotationVelocity;
-
-                if (currentVisualState === 'opening' || currentVisualState === 'celebration') {
-                    if(this.type === 'confetti' || this.type === 'sparkle' || this.isExplosion) {
-                        this.alpha -= this.fadeVel;
-                    }
-                }
-
-                if (this.y > canvas.height + 50 || this.x < -50 || this.x > canvas.width + 50 || this.alpha <= 0) {
-                    if (currentVisualState !== 'darkness') {
-                        this.reset();
-                    }
-                }
+                if(this.isExplosion) { this.speedY += 0.15; this.speedX *= 0.98; } else { this.x += Math.sin(this.timeTracker) * this.oscillationAmp; }
+                this.x += this.speedX; this.y += this.speedY; this.rotationAngle += this.rotationVelocity;
+                if (currentVisualState === 'opening' || currentVisualState === 'celebration') { if(this.type === 'confetti' || this.type === 'sparkle' || this.isExplosion) this.alpha -= this.fadeVel; }
+                if (this.y > canvas.height + 50 || this.x < -50 || this.x > canvas.width + 50 || this.alpha <= 0) { if (currentVisualState !== 'darkness') this.reset(); }
             }
-
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = -30;
-                this.type = this.determineType();
-                this.size = (this.type === 'sparkle') ? 3 + Math.random() * 5 : 8 + Math.random() * 16;
-                this.speedX = (Math.random() - 0.5) * 1.5;
-                this.speedY = 1.5 + Math.random() * 2.5;
-                this.alpha = 0.7 + Math.random() * 0.3;
-                this.isExplosion = false; 
-            }
-
+            reset() { this.x = Math.random() * canvas.width; this.y = -30; this.type = this.determineType(); this.size = (this.type === 'sparkle') ? 3 + Math.random() * 5 : 8 + Math.random() * 16; this.speedX = (Math.random() - 0.5) * 1.5; this.speedY = 1.5 + Math.random() * 2.5; this.alpha = 0.7 + Math.random() * 0.3; this.isExplosion = false; }
             draw() {
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate(this.rotationAngle);
-                ctx.globalAlpha = Math.max(0, this.alpha);
+                ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.rotationAngle); ctx.globalAlpha = Math.max(0, this.alpha);
+                let compStyle = getComputedStyle(document.documentElement); let soft = compStyle.getPropertyValue('--pink-soft').trim() || '#ffb7b2'; let dark = compStyle.getPropertyValue('--rose-gold').trim() || '#b76e79';
 
-                if (this.type === 'sakura') {
-                    ctx.fillStyle = '#ffb7b2';
-                    ctx.beginPath();
-                    ctx.ellipse(0, 0, this.size * 0.6, this.size, 0, 0, Math.PI * 2);
-                    ctx.fill();
-                } else if (this.type === 'rose') {
-                    ctx.fillStyle = '#b76e79';
-                    ctx.beginPath();
-                    ctx.arc(0, 0, this.size * 0.7, 0, Math.PI);
-                    ctx.lineTo(0, this.size);
-                    ctx.fill();
-                } else if (this.type === 'heart') {
-                    ctx.fillStyle = '#ff9aa2';
-                    ctx.beginPath();
-                    ctx.moveTo(0, 0);
-                    ctx.bezierCurveTo(-this.size/2, -this.size/2, -this.size, +this.size/3, 0, this.size);
-                    ctx.bezierCurveTo(this.size, +this.size/3, this.size/2, -this.size/2, 0, 0);
-                    ctx.fill();
-                } else if (this.type === 'sparkle') {
-                    ctx.fillStyle = '#ffffff';
-                    ctx.shadowColor = '#ffe5ec';
-                    ctx.shadowBlur = 8;
-                    ctx.beginPath();
-                    for (let i=0; i<4; i++) { ctx.lineTo(0, -this.size); ctx.rotate(Math.PI/2); }
-                    ctx.fill();
-                } else if (this.type === 'confetti') {
-                    const colors = ['#ffb7b2', '#ff9aa2', '#ffc6ff', '#e8dbfc', '#ffd166'];
-                    ctx.fillStyle = colors[Math.floor(Math.abs(this.x) % colors.length)];
-                    ctx.fillRect(-this.size/2, -this.size/4, this.size, this.size/2);
-                }
+                if (this.type === 'sakura') { ctx.fillStyle = soft; ctx.beginPath(); ctx.ellipse(0, 0, this.size * 0.6, this.size, 0, 0, Math.PI * 2); ctx.fill(); } 
+                else if (this.type === 'rose') { ctx.fillStyle = dark; ctx.beginPath(); ctx.arc(0, 0, this.size * 0.7, 0, Math.PI); ctx.lineTo(0, this.size); ctx.fill(); } 
+                else if (this.type === 'sunflower') { ctx.fillStyle = '#fbc02d'; ctx.beginPath(); ctx.arc(0,0,this.size*0.4, 0, Math.PI*2); ctx.fill(); ctx.fillStyle='#fff'; for(let i=0;i<8;i++){ctx.rotate(Math.PI/4); ctx.beginPath(); ctx.ellipse(0, this.size*0.6, this.size*0.3, this.size*0.5, 0,0,Math.PI*2); ctx.fill();} }
+                else if (this.type === 'tulip') { ctx.fillStyle = '#e91e63'; ctx.beginPath(); ctx.moveTo(0,this.size); ctx.bezierCurveTo(this.size,this.size, this.size,-this.size, 0,-this.size/2); ctx.bezierCurveTo(-this.size,-this.size, -this.size,this.size, 0,this.size); ctx.fill(); }
+                else if (this.type === 'daisy') { ctx.fillStyle = '#fff'; for(let i=0;i<8;i++){ctx.rotate(Math.PI/4); ctx.beginPath(); ctx.ellipse(0, this.size*0.5, this.size*0.2, this.size*0.6, 0,0,Math.PI*2); ctx.fill();} ctx.fillStyle = '#fdd835'; ctx.beginPath(); ctx.arc(0,0,this.size*0.3, 0, Math.PI*2); ctx.fill(); }
+                else if (this.type === 'lily') { ctx.fillStyle = '#fff'; ctx.shadowColor='#e1bee7'; ctx.shadowBlur=5; ctx.beginPath(); ctx.ellipse(0, 0, this.size*0.4, this.size*0.8, 0,0,Math.PI*2); ctx.fill(); ctx.rotate(Math.PI/2); ctx.beginPath(); ctx.ellipse(0, 0, this.size*0.4, this.size*0.8, 0,0,Math.PI*2); ctx.fill(); }
+                else if (this.type === 'heart') { ctx.fillStyle = '#ff9aa2'; ctx.beginPath(); ctx.moveTo(0, 0); ctx.bezierCurveTo(-this.size/2, -this.size/2, -this.size, +this.size/3, 0, this.size); ctx.bezierCurveTo(this.size, +this.size/3, this.size/2, -this.size/2, 0, 0); ctx.fill(); } 
+                else if (this.type === 'sparkle') { ctx.fillStyle = '#ffffff'; ctx.shadowColor = '#ffe5ec'; ctx.shadowBlur = 8; ctx.beginPath(); for (let i=0; i<4; i++) { ctx.lineTo(0, -this.size); ctx.rotate(Math.PI/2); } ctx.fill(); } 
+                else if (this.type === 'confetti') { const colors = [soft, dark, '#ff9aa2', '#ffffff']; ctx.fillStyle = colors[Math.floor(Math.abs(this.x) % colors.length)]; ctx.fillRect(-this.size/2, -this.size/4, this.size, this.size/2); }
                 ctx.restore();
             }
         }
-
-        function generateVolumetricParticleBurst(count, x, y, isExplosion = false) {
-            for(let i = 0; i < count; i++) {
-                particlesArray.push(new RomanticParticleVector(x, y, null, isExplosion));
-            }
-        }
-
-        function generateSparkleParticle(x, y) {
-            const p = new RomanticParticleVector(x, y, 'sparkle');
-            p.speedX = (Math.random() - 0.5) * 2;
-            p.speedY = (Math.random() - 0.5) * 2;
-            particlesArray.push(p);
-        }
-
-        function renderParticleLoopEngine() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            if (currentVisualState !== 'darkness') {
-                if (particlesArray.length > 600) {
-                    particlesArray.splice(0, particlesArray.length - 600);
-                }
-
-                particlesArray.forEach((p) => {
-                    p.update();
-                    p.draw();
-                });
-            }
-
-            requestAnimationFrame(renderParticleLoopEngine);
-        }
-
-        function injectPremiumRipple(e) {
-            const btn = e.currentTarget;
-            const ripple = document.createElement('span');
-            ripple.className = 'ripple';
-            const rect = btn.getBoundingClientRect();
-            const d = Math.max(rect.width, rect.height);
-            ripple.style.width = ripple.style.height = `${d}px`;
-            ripple.style.left = `${e.clientX - rect.left - d/2}px`;
-            ripple.style.top = `${e.clientY - rect.top - d/2}px`;
-            btn.appendChild(ripple);
-            setTimeout(() => ripple.remove(), 600);
-        }
+        function generateVolumetricParticleBurst(count, x, y, isExplosion = false) { for(let i = 0; i < count; i++) particlesArray.push(new RomanticParticleVector(x, y, null, isExplosion)); }
+        function generateSparkleParticle(x, y) { const p = new RomanticParticleVector(x, y, 'sparkle'); p.speedX = (Math.random() - 0.5) * 2; p.speedY = (Math.random() - 0.5) * 2; particlesArray.push(p); }
+        function renderParticleLoopEngine() { ctx.clearRect(0, 0, canvas.width, canvas.height); if (currentVisualState !== 'darkness') { if (particlesArray.length > 600) particlesArray.splice(0, particlesArray.length - 600); particlesArray.forEach((p) => { p.update(); p.draw(); }); } requestAnimationFrame(renderParticleLoopEngine); }
+        function injectPremiumRipple(e) { const btn = e.currentTarget; const ripple = document.createElement('span'); ripple.className = 'ripple'; const rect = btn.getBoundingClientRect(); const d = Math.max(rect.width, rect.height); ripple.style.width = ripple.style.height = `${d}px`; ripple.style.left = `${(e.clientX || e.touches[0].clientX) - rect.left - d/2}px`; ripple.style.top = `${(e.clientY || e.touches[0].clientY) - rect.top - d/2}px`; btn.appendChild(ripple); setTimeout(() => ripple.remove(), 600); }
     </script>
 </body>
 </html>
